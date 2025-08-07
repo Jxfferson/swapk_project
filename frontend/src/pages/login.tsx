@@ -74,24 +74,25 @@ const Login: React.FC = () => {
               alt="Ilustración 1"
               width={180}
               height={180}
-              className="image image-main"
+              className="stacked-image high-opacity"
             />
             <Image 
               src="/img/login/library_login.png"
               alt="Ilustración 2"
               width={150}
               height={150}
-              className="image image-secondary"
+              className="stacked-image medium-opacity"
             />
             <Image 
               src="/img/login/man_login.png"
               alt="Ilustración 3"
               width={120}
               height={120}
-              className="image image-faded"
+              className="stacked-image low-opacity"
             />
           </div>
         </div>
+
 
         {/* Right Side - Login Form */}
         <div className="login-right">
