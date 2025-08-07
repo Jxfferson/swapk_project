@@ -70,21 +70,21 @@ const Login: React.FC = () => {
         <div className="login-left">
           <div className="image-stack">
             <Image 
-              src="/img/login/book_login.png"
+              src="/img/login/book_login.jpg"
               alt="Ilustración 1"
               width={180}
               height={180}
               className="stacked-image high-opacity"
             />
             <Image 
-              src="/img/login/library_login.png"
+              src="/img/login/library_login.jpg"
               alt="Ilustración 2"
               width={150}
               height={150}
               className="stacked-image medium-opacity"
             />
             <Image 
-              src="/img/login/man_login.png"
+              src="/img/login/man_login.jpg"
               alt="Ilustración 3"
               width={120}
               height={120}
