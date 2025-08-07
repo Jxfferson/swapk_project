@@ -19,7 +19,15 @@ body {
 
 /* Utility classes */
 .text-blue {
-  color: #4299e1;
+  color: #2ca8d1;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.text-bluetone {
+  color: #22abd4;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /* Navigation */
@@ -418,7 +426,7 @@ body {
 /* SECCIÓN 4: Testimonials Section */
 .testimonials-section {
   padding: 100px 20px;
-  background-color: #1a1a1a;
+  background-color: #141414;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -431,7 +439,7 @@ body {
 }
 
 .testimonial-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(124, 124, 124, 0.05);
   border: 1px solid #4a5568;
   border-radius: 16px;
   padding: 40px;
@@ -450,15 +458,6 @@ body {
   border-radius: 50%;
   position: absolute;
   top: 50%;
-}
-
-
-.testimonial-nav.prev {
-  left: 35px;
-}
-
-.testimonial-nav.next {
-  right: -135px;
 }
 
 .testimonial-content {

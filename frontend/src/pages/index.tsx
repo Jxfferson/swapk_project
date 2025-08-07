@@ -168,7 +168,7 @@ const Inicio: React.FC = () => {
             </p>
             <a href="./register">
             <button className="cta-button" onClick={handleJoinClick}>
-              ÚNETE A <span className="text-blue">SWAPK</span> GRATIS
+              ÚNETE A <span className="text-gray">SWAPK</span> GRATIS
             </button>
             </a>
           </div>
@@ -213,7 +213,7 @@ const Inicio: React.FC = () => {
         <div className="mission-container">
           <div className="mission-content">
             <h2 className="section-title">
-              Descubre la misión y visión de <span className="text-blue">Swapk</span>
+              Descubre la misión y visión de <span className="text-bluetone">Swapk</span>
             </h2>
 
             <div className="mission-vision-grid">
@@ -257,14 +257,6 @@ const Inicio: React.FC = () => {
       <section className="testimonials-section">
         <div className="testimonials-container">
           <div className="testimonial-card">
-            <button 
-              className="testimonial-nav prev" 
-              onClick={prevTestimonial}
-              aria-label="Testimonio anterior"
-            >
-              <ChevronLeft />
-            </button>
-
             <div className="testimonial-content">
               <div className="testimonial-avatar">
                 <img 
@@ -297,14 +289,6 @@ const Inicio: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            <button 
-              className="testimonial-nav next" 
-              onClick={nextTestimonial}
-              aria-label="Siguiente testimonio"
-            >
-              <ChevronRight />
-            </button>
           </div>
 
           <div className="testimonial-dots">

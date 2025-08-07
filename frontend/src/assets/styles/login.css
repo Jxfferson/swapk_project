@@ -56,7 +56,7 @@ body {
 /* Left side - Illustrations */
 .login-left {
   flex: 1;
-  background: linear-gradient(135deg, #121212 0%, #141414 100%);
+  background: linear-gradient(135deg, #141414 0%, #141414 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,7 +141,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 55px;
-  padding-left: 45%;
 }
 
 .form-container {
@@ -247,9 +246,10 @@ body {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.4s;
   margin-bottom: 30px;
 }
+
 
 .login-button:hover {
   transform: translateY(-1px);
@@ -346,16 +346,20 @@ body {
 .register-link-btn {
   background: none;
   border: none;
-  color: #4299e1;
-  font-weight: 500;
+  color: #00b2ff;
+  font-weight: bold;
   cursor: pointer;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .register-link-btn:hover {
-  color: #63b3ed;
+  color: #2c6b7a;
   text-decoration: underline;
+}
+
+.logo-container{
+    cursor: pointer;
 }
 
 /* Responsive design */

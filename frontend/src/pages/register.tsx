@@ -41,38 +41,6 @@ export default function RegisterPage() {
       </header>
 
        <div className="login-container">
-              {/* Left Side - Illustrations Placeholder */}
-              <div className="login-left">
-              <div className="image-stack">
-                {/* Imagen de fondo */}
-                <Image 
-                  src=""
-                  alt="Fondo ilustración"
-                  width={500}
-                  height={300}
-                  className="stacked-image background-image"
-                />
-      
-                {/* Imagen secundaria */}
-                <Image 
-                  src=""
-                  alt="Ilustración secundaria"
-                  width={250}
-                  height={180}
-                  className="stacked-image secondary-image"
-                />
-      
-                {/* Imagen principal */}
-                <Image 
-                  src=""
-                  alt="Ilustración principal"
-                  width={280}
-                  height={200}
-                  className="stacked-image primary-image"
-                />
-              </div>
-        </div>
-
         {/* Right Side - Form */}
         <div className="register-right">
           <div className="form-container">
