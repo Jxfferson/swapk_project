@@ -66,46 +66,13 @@ const Login: React.FC = () => {
       </header>
 
       <div className="login-container">
-        {/* Left Side - Illustrations Placeholder */}
-        <div className="login-left">
-        <div className="image-stack">
-          {/* Imagen de fondo */}
-          <Image 
-            src=""
-            alt="Fondo ilustración"
-            width={500}
-            height={300}
-            className="stacked-image background-image"
-          />
-
-          {/* Imagen secundaria */}
-          <Image 
-            src=""
-            alt="Ilustración secundaria"
-            width={250}
-            height={180}
-            className="stacked-image secondary-image"
-          />
-
-          {/* Imagen principal */}
-          <Image 
-            src=""
-            alt="Ilustración principal"
-            width={280}
-            height={200}
-            className="stacked-image primary-image"
-          />
-        </div>
-      </div>
-
-
-
         {/* Right Side - Login Form */}
         <div className="login-right">
           <div className="form-container">
             {/* Logo */}
             <div className="form-logo">
               <div className="logo-container">
+                <a href="./index">
                             <Image 
                               src="/img/logoswapk.png"
                               alt="Logo Swapk"
@@ -113,6 +80,7 @@ const Login: React.FC = () => {
                               height={35}
                               className="logo"
                             />
+                </a>
               </div>
               <h1 className="form-title">
                 Sw<span className="highlight">a</span>pk
