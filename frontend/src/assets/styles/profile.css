@@ -1,0 +1,541 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+.perfil-page {
+  min-height: 100vh;
+  background-color: #1a1a1a;
+}
+
+/* Navigation */
+.navbar {
+  background-color: #121212;
+  border-bottom: 1px solid #4a5568;
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 20px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  color: #ffffff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #4299e1;
+}
+
+.nav-center {
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-form {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 45px 10px 15px;
+  background-color: #4a5568;
+  border: 1px solid #718096;
+  border-radius: 25px;
+  color: #ffffff;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.search-input::placeholder {
+  color: #a0aec0;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+
+.search-button {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #a0aec0;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-icon-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.nav-icon-btn:hover {
+  background-color: #4a5568;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.message-btn .nav-icon {
+  color: #4299e1;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+  border-radius: 50%;
+}
+
+/* Main Content */
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr 350px;
+  gap: 30px;
+  align-items: start;
+}
+
+/* Profile Section */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-card {
+  background-color: #2d3748;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-avatar {
+  margin-bottom: 15px;
+}
+
+.avatar-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4a5568;
+}
+
+.profile-header {
+  margin-bottom: 15px;
+}
+
+.profile-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.verified-icon {
+  width: 20px;
+  height: 20px;
+  color: #4299e1;
+}
+
+.profile-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.location-icon {
+  width: 16px;
+  height: 16px;
+  color: #4299e1;
+}
+
+.profile-rating {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  color: #fbbf24;
+  fill: currentColor;
+}
+
+.edit-profile-btn {
+  background-color: #4a5568;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.edit-profile-btn:hover {
+  background-color: #718096;
+}
+
+.welcome-text {
+  background-color: #2d3748;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.welcome-text p {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Exchange Section */
+.exchange-section {
+  background-color: #2d3748;
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 20px;
+  background-color: #4a5568;
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.stat-sublabel {
+  font-size: 0.8rem;
+  color: #a0aec0;
+}
+
+/* Skills Section */
+.skills-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.skills-card,
+.history-card {
+  background-color: #2d3748;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.skill-tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.skill-purple {
+  background-color: #805ad5;
+}
+
+.skill-brown {
+  background-color: #8b4513;
+}
+
+.skill-gray {
+  background-color: #718096;
+}
+
+.skill-blue {
+  background-color: #4299e1;
+}
+
+.view-more-btn {
+  width: 100%;
+  background-color: #4a5568;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-more-btn:hover {
+  background-color: #718096;
+}
+
+/* Exchange History */
+.exchange-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #4a5568;
+}
+
+.exchange-item:last-child {
+  border-bottom: none;
+}
+
+.exchange-header {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.exchange-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.exchange-info {
+  flex: 1;
+}
+
+.exchange-type {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.exchange-description {
+  font-size: 0.8rem;
+  color: #a0aec0;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.view-details-btn {
+  background-color: #4299e1;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-details-btn:hover {
+  background-color: #3182ce;
+}
+
+.exchange-rating {
+  display: flex;
+  gap: 2px;
+  margin-top: 5px;
+}
+
+.exchange-rating .star {
+  width: 16px;
+  height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-center {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-center {
+    max-width: 100%;
+    order: 3;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .skills-grid {
+    justify-content: center;
+  }
+
+  .exchange-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exchange-rating {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 20px 15px;
+  }
+
+  .profile-card,
+  .exchange-section,
+  .skills-card,
+  .history-card {
+    padding: 15px;
+  }
+
+  .avatar-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-name {
+    font-size: 1.3rem;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+
