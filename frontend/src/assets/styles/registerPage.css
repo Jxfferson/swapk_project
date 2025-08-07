@@ -18,6 +18,7 @@ body {
   background-color: #121212;
   display: flex;
   flex-direction: column;
+  padding-right: 1px;  
 }
 
 /* Header */
@@ -51,247 +52,19 @@ body {
   display: flex;
   min-height: 100vh;
   flex: 1;
+  padding-right: 1%;
 }
 
-/* Left side - Illustration */
-.register-left {
-  flex: 1;
-  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
 
-.illustration-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  max-width: 500px;
-  max-height: 600px;
-}
-
-/* Main illustration */
-.main-illustration {
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  width: 350px;
-  height: 250px;
-  background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.room-scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-}
-
-.bookshelf {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  width: 60px;
-  height: 120px;
-  background: #8b4513;
-  border-radius: 4px;
-}
-
-.shelf-item {
-  position: absolute;
-  width: 8px;
-  height: 30px;
-  border-radius: 2px;
-}
-
-.book1 {
-  background: #ff6b6b;
-  left: 5px;
-  top: 10px;
-}
-
-.book2 {
-  background: #4ecdc4;
-  left: 15px;
-  top: 10px;
-}
-
-.book3 {
-  background: #45b7d1;
-  left: 25px;
-  top: 10px;
-}
-
-.desk-area {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 100px;
-  height: 80px;
-}
-
-.computer-screen {
-  width: 60px;
-  height: 40px;
-  background: #1a202c;
-  border: 2px solid #4a5568;
-  border-radius: 4px;
-  position: relative;
-}
-
-.computer-screen::after {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-  background: linear-gradient(45deg, #4299e1, #63b3ed);
-  border-radius: 2px;
-}
-
-.person-studying {
-  position: absolute;
-  bottom: 0;
-  left: -20px;
-  width: 30px;
-  height: 40px;
-  background: #f7fafc;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-}
-
-.plant {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 30px;
-  background: #48bb78;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-}
-
-/* Secondary illustration */
-.secondary-illustration {
-  position: absolute;
-  bottom: 15%;
-  left: 5%;
-  width: 200px;
-  height: 150px;
-  background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-.meeting-scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 15px;
-}
-
-.person-1 {
-  position: absolute;
-  left: 20px;
-  bottom: 20px;
-  width: 25px;
-  height: 35px;
-  background: #2d3748;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-}
-
-.person-1::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 5px;
-  width: 15px;
-  height: 15px;
-  background: #f7fafc;
-  border-radius: 50%;
-}
-
-.person-2 {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 25px;
-  height: 35px;
-  background: #fbd38d;
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-}
-
-.person-2::before {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 5px;
-  width: 15px;
-  height: 15px;
-  background: #f7fafc;
-  border-radius: 50%;
-}
-
-.presentation-board {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 40px;
-  background: #ffffff;
-  border-radius: 4px;
-}
-
-/* Floating laptop */
-.floating-laptop {
-  position: absolute;
-  top: 40%;
-  right: 15%;
-  width: 120px;
-  height: 80px;
-  transform: rotate(-10deg);
-}
-
-.laptop-screen {
-  width: 100%;
-  height: 60px;
-  background: #1a202c;
-  border: 2px solid #4a5568;
-  border-radius: 8px 8px 0 0;
-  position: relative;
-}
-
-.laptop-screen::after {
-  content: '';
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 4px;
-}
-
-.laptop-base {
-  width: 100%;
-  height: 20px;
-  background: #4a5568;
-  border-radius: 0 0 8px 8px;
-}
 
 /* Right side - Form */
 .register-right {
   flex: 1;
-  background-color: #2a2a2a;
+  background-color: #121212;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding-left: 30%;
 }
 
 .form-container {
@@ -326,7 +99,7 @@ body {
 
 /* Form styles */
 .register-form {
-  margin-bottom: 30px;
+  margin-bottom: 80px;
 }
 
 .form-group {
@@ -336,8 +109,8 @@ body {
 .form-input {
   width: 100%;
   padding: 12px 16px;
-  background-color: #4a5568;
-  border: 1px solid #718096;
+  background-color: #3b3b3b;
+  border: 1px solid #b8b9bb;
   border-radius: 8px;
   color: #ffffff;
   font-size: 16px;
@@ -403,9 +176,12 @@ body {
 
 /* Register button */
 .register-button {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  width: 70%;
+  display: flex;
+  margin-left: 60px;
+  justify-content: center;
+  padding: 12px;
+  background: linear-gradient(135deg, #005ee1 0%, rgb(46, 120, 188) 100%);
   border: none;
   border-radius: 8px;
   color: #ffffff;
@@ -426,7 +202,7 @@ body {
 
 /* Social section */
 .social-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -477,6 +253,46 @@ body {
   width: 24px;
   height: 24px;
 }
+
+
+.login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #121212 0%, #141414 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-stack {
+  position: relative;
+  width: 500px;   /* Asegura espacio */
+  height: 400px;
+}
+
+.stacked-image {
+  position: absolute;
+  border-radius: 12px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.stacked-image:nth-child(1) {
+  top: 0;
+  left: 50px;
+  z-index: 3;
+}
+.stacked-image:nth-child(2) {
+  top: 120px;
+  left: 0;
+  z-index: 2;
+}
+.stacked-image:nth-child(3) {
+  top: 200px;
+  left: 100px;
+  z-index: 1;
+}
+
 
 /* Login link */
 .login-link {
