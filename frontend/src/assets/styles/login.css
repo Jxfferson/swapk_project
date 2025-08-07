@@ -64,6 +64,33 @@ body {
   overflow: hidden;
 }
 
+/* Imagenes apiladas en el lado izquierdo */
+.image-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.stacked-image {
+  position: absolute;
+  border-radius: 12px;
+  transition: opacity 0.3s ease;
+}
+
+.stacked-image.low-opacity {
+  opacity: 0.3;
+}
+
+.stacked-image.medium-opacity {
+  opacity: 0.6;
+}
+
+.stacked-image.high-opacity {
+  opacity: 1;
+}
+
+
+
 .illustrations-container {
   position: relative;
   width: 100%;

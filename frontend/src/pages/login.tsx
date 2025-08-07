@@ -195,4 +195,15 @@ const Login: React.FC = () => {
               <div className="register-link">
                 <span className="register-text">¿No tienes una cuenta? </span>
                 <button className="register-link-btn" onClick={handleRegister}>
-         
+                  Regístrate gratis.
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

@@ -1,1 +1,11 @@
-*node_modules/*
+# Dependencias
+node_modules/
+
+# Build de Next.js
+.next/
+
+# Archivos de distribución
+dist/
+
+# Logs y otros
+*.log
