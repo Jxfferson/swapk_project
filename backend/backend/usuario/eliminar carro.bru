@@ -1,0 +1,15 @@
+meta {
+  name: eliminar carro
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http:localhost:3000/cars/8
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
