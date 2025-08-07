@@ -68,30 +68,36 @@ const Login: React.FC = () => {
       <div className="login-container">
         {/* Left Side - Illustrations Placeholder */}
         <div className="login-left">
-          <div className="image-stack">
-            <Image 
-              src="/img/login/book_login.jpg"
-              alt="Ilustración 1"
-              width={180}
-              height={180}
-              className="stacked-image high-opacity"
-            />
-            <Image 
-              src="/img/login/library_login.jpg"
-              alt="Ilustración 2"
-              width={150}
-              height={150}
-              className="stacked-image medium-opacity"
-            />
-            <Image 
-              src="/img/login/man_login.jpg"
-              alt="Ilustración 3"
-              width={120}
-              height={120}
-              className="stacked-image low-opacity"
-            />
-          </div>
+        <div className="image-stack">
+          {/* Imagen de fondo */}
+          <Image 
+            src=""
+            alt="Fondo ilustración"
+            width={500}
+            height={300}
+            className="stacked-image background-image"
+          />
+
+          {/* Imagen secundaria */}
+          <Image 
+            src=""
+            alt="Ilustración secundaria"
+            width={250}
+            height={180}
+            className="stacked-image secondary-image"
+          />
+
+          {/* Imagen principal */}
+          <Image 
+            src=""
+            alt="Ilustración principal"
+            width={280}
+            height={200}
+            className="stacked-image primary-image"
+          />
         </div>
+      </div>
+
 
 
         {/* Right Side - Login Form */}
@@ -108,7 +114,6 @@ const Login: React.FC = () => {
                               className="logo"
                             />
               </div>
-              
               <h1 className="form-title">
                 Sw<span className="highlight">a</span>pk
               </h1>
@@ -195,9 +200,11 @@ const Login: React.FC = () => {
               </button>
               <div className="register-link">
                 <span className="register-text">¿No tienes una cuenta? </span>
+                <a href="./register">
                 <button className="register-link-btn" onClick={handleRegister}>
                   Regístrate gratis.
                 </button>
+                </a>
               </div>
             </div>
           </div>

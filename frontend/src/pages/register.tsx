@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import { Settings, Apple } from 'lucide-react'
+import Image from 'next/image';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -28,46 +29,48 @@ export default function RegisterPage() {
       {/* Header */}
       <header className="register-header">
         <div className="logo-header">
-          <Settings className="logo-icon" />
+          <Image 
+            src="/img/logoswapk.png"
+            alt="Logo Swapk"
+            width={35}
+            height={35}
+            className="logo"
+          />
           <span className="logo-text">SWAPK</span>
         </div>
       </header>
 
-      <div className="register-container">
-        {/* Left Side - Illustration */}
-        <div className="register-left">
-          <div className="illustration-container">
-            {/* Main illustration */}
-            <div className="main-illustration">
-              <div className="room-scene">
-                <div className="bookshelf">
-                  <div className="shelf-item book1"></div>
-                  <div className="shelf-item book2"></div>
-                  <div className="shelf-item book3"></div>
-                </div>
-                <div className="desk-area">
-                  <div className="computer-screen"></div>
-                  <div className="person-studying"></div>
-                </div>
-                <div className="plant"></div>
+       <div className="login-container">
+              {/* Left Side - Illustrations Placeholder */}
+              <div className="login-left">
+              <div className="image-stack">
+                {/* Imagen de fondo */}
+                <Image 
+                  src=""
+                  alt="Fondo ilustración"
+                  width={500}
+                  height={300}
+                  className="stacked-image background-image"
+                />
+      
+                {/* Imagen secundaria */}
+                <Image 
+                  src=""
+                  alt="Ilustración secundaria"
+                  width={250}
+                  height={180}
+                  className="stacked-image secondary-image"
+                />
+      
+                {/* Imagen principal */}
+                <Image 
+                  src=""
+                  alt="Ilustración principal"
+                  width={280}
+                  height={200}
+                  className="stacked-image primary-image"
+                />
               </div>
-            </div>
-
-            {/* Secondary illustration */}
-            <div className="secondary-illustration">
-              <div className="meeting-scene">
-                <div className="person-1"></div>
-                <div className="person-2"></div>
-                <div className="presentation-board"></div>
-              </div>
-            </div>
-
-            {/* Floating laptop */}
-            <div className="floating-laptop">
-              <div className="laptop-screen"></div>
-              <div className="laptop-base"></div>
-            </div>
-          </div>
         </div>
 
         {/* Right Side - Form */}
@@ -75,7 +78,13 @@ export default function RegisterPage() {
           <div className="form-container">
             {/* Logo */}
             <div className="form-logo">
-              <Settings className="form-logo-icon" />
+              <Image 
+                  src="/img/logoswapk.png"
+                  alt="Logo Swapk"
+                  width={35}
+                  height={35}
+                  className="logo"
+              />
               <h1 className="form-title">
                 Sw<span className="highlight">a</span>pk
               </h1>
@@ -166,7 +175,7 @@ export default function RegisterPage() {
             {/* Login Link */}
             <div className="login-link">
               <span className="login-text">¿Ya tienes una cuenta? </span>
-              <a href="#" className="login-link-text">Inicia sesión aquí.</a>
+              <a href="./login" className="login-link-text">Inicia sesión aquí.</a>
             </div>
           </div>
         </div>
