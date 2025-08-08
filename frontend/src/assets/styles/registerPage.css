@@ -316,6 +316,9 @@ body {
   text-decoration: underline;
 }
 
+.logo-container{
+  cursor: pointer;
+}
 /* Responsive design */
 @media (max-width: 768px) {
   .register-container {

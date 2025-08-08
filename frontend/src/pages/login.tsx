@@ -53,13 +53,15 @@ const Login: React.FC = () => {
       <header className="login-header">
         <div className="logo-header">
           <div className="logo-container">
-                        <Image 
-                          src="/img/logoswapk.png"
-                          alt="Logo Swapk"
-                          width={35}
-                          height={35}
-                          className="logo"
-          />
+            <a href="./">
+              <Image 
+                src="/img/logoswapk.png"
+                alt="Logo Swapk"
+                width={35}
+                height={35}
+                className="logo"
+              />
+            </a>
           </div>
           <span className="logo-text">SWAPK</span>
         </div>
@@ -72,7 +74,7 @@ const Login: React.FC = () => {
             {/* Logo */}
             <div className="form-logo">
               <div className="logo-container">
-                <a href="./index">
+                <a href="./">
                             <Image 
                               src="/img/logoswapk.png"
                               alt="Logo Swapk"

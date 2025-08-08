@@ -202,13 +202,12 @@ body {
 .sidebar-icon {
   width: 20px;
   height: 20px;
-  color: #f87171;
+  color: #b4b4b4;
 }
 
 .sidebar-title {
   font-size: 18px;
   font-weight: 600;
-  color: #f87171;
 }
 
 .sidebar-sections {

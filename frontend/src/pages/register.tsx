@@ -29,13 +29,17 @@ export default function RegisterPage() {
       {/* Header */}
       <header className="register-header">
         <div className="logo-header">
-          <Image 
-            src="/img/logoswapk.png"
-            alt="Logo Swapk"
-            width={35}
-            height={35}
-            className="logo"
-          />
+          <div className="logo-container">
+            <a href="./">
+              <Image 
+                src="/img/logoswapk.png"
+                alt="Logo Swapk"
+                width={35}
+                height={35}
+                className="logo"
+              />
+            </a>
+          </div>
           <span className="logo-text">SWAPK</span>
         </div>
       </header>
@@ -46,13 +50,17 @@ export default function RegisterPage() {
           <div className="form-container">
             {/* Logo */}
             <div className="form-logo">
-              <Image 
-                  src="/img/logoswapk.png"
-                  alt="Logo Swapk"
-                  width={35}
-                  height={35}
-                  className="logo"
-              />
+              <div className="logo-container">
+                <a href="./">
+                  <Image 
+                    src="/img/logoswapk.png"
+                    alt="Logo Swapk"
+                    width={35}
+                    height={35}
+                    className="logo"
+                  />
+                </a>
+              </div>
               <h1 className="form-title">
                 Sw<span className="highlight">a</span>pk
               </h1>

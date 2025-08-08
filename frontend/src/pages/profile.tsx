@@ -1,122 +1,116 @@
-"use client"
-import React, { useState } from 'react';
-import { Settings, Search, MessageSquare, Bell, User, MapPin, Star, CheckCircle, Eye } from 'lucide-react';
-
-interface Skill {
-  name: string;
-  color: string;
-}
-
-interface ExchangeHistory {
-  id: number;
-  type: string;
-  partner: string;
-  description: string;
-  rating: number;
-  avatar: string;
-}
-
-interface ExchangeStats {
-  completed: number;
-  enrolled: number;
-  coursesCompleted: string;
-  coursesToTake: string;
-  knownPeople: number;
-  instructors: string;
-}
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  Settings,
+  Search,
+  MessageSquare,
+  Bell,
+  User,
+  MapPin,
+  Star,
+  CheckCircle,
+  HelpCircle,
+  LogOut,
+  UserCog
+} from "lucide-react";
+import Image from 'next/image';
 
 const Perfil: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // User data
+  // Cerrar el menu
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setProfileMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const userData = {
     name: "Manuel Eduardo",
-    location: "Colombia, cali",
+    location: "Colombia, Cali",
     isVerified: true,
     rating: 5,
-    avatar: "/placeholder.svg?height=120&width=120&text=ME",
-    welcomeText: "¡Bienvenido a tu perfil! Aquí puedes administrar tu información personal, incluyendo tu nombre, correo electrónico y estado de inscripción. Mantente al día con tu proceso de aprendizaje y aprovecha al máximo tu experiencia en Swapk."
+    avatar: "./img/cat_profile.jpg",
+    welcomeText:
+      "¡Bienvenido a tu perfil! Aquí puedes administrar tu información personal, incluyendo tu nombre, correo electrónico y estado de inscripción. Mantente al día con tu proceso de aprendizaje y aprovecha al máximo tu experiencia en Swapk.",
   };
 
-  // Exchange statistics
-  const exchangeStats: ExchangeStats = {
+  const exchangeStats = {
     completed: 5,
     enrolled: 2,
     coursesCompleted: "Cursos completos",
     coursesToTake: "Cursos a realizar",
     knownPeople: 7,
-    instructors: "Instructores"
+    instructors: "Instructores",
   };
 
-  // Skills data
-  const skills: Skill[] = [
+  const skills = [
     { name: "#Python", color: "purple" },
     { name: "#Guitarra", color: "brown" },
     { name: "#Fotografía", color: "gray" },
     { name: "#Inglés B2", color: "blue" },
     { name: "#Marketing", color: "gray" },
-    { name: "#Ciberseguridad", color: "gray" }
+    { name: "#Ciberseguridad", color: "gray" },
   ];
 
-  // Exchange history
-  const exchangeHistory: ExchangeHistory[] = [
+  const exchangeHistory = [
     {
       id: 1,
       type: "Clases de cocina por lecciones de fotografía",
       partner: "Usuario",
-      description: "Gran intercambio, Eduardo explicó todo claramente y con paciencia.",
+      description:
+        "Gran intercambio, Eduardo explicó todo claramente y con paciencia.",
       rating: 4,
-      avatar: "/placeholder.svg?height=40&width=40&text=U"
-    }
+      avatar: "./img/login/man_login.jpg",
+    },
   ];
 
-  // Event handlers
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Searching:', searchQuery);
-  };
-
-  const handleEditProfile = () => {
-    console.log('Edit profile clicked');
-  };
-
-  const handleViewMore = () => {
-    console.log('View more skills clicked');
-  };
-
-  const handleViewDetails = () => {
-    console.log('View exchange details clicked');
-  };
-
-  const handleMessageClick = () => {
-    console.log('Messages clicked');
-  };
-
-  const handleNotificationClick = () => {
-    console.log('Notifications clicked');
-  };
-
-  const handleProfileClick = () => {
-    console.log('Profile menu clicked');
+    console.log("Buscando:", searchQuery);
   };
 
   return (
     <div className="perfil-page">
-      {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-left">
-            <div className="logo">
-              <Settings className="logo-icon" />
+            <div className="logo-container">
+                <Image 
+                    src="/img/logoswapk.png"
+                    alt="Logo Swapk"
+                    width={35}
+                    height={35}
+                    className="logo"
+                />
             </div>
             <div className="nav-links">
-              <a href="#inicio" className="nav-link">INICIO</a>
-              <a href="#trueques" className="nav-link">TRUEQUES</a>
-              <a href="#comunidad" className="nav-link">COMUNIDAD</a>
-              <a href="#faqs" className="nav-link">FAQ's</a>
+              <a href="#inicio" className="nav-link">
+                INICIO
+              </a>
+              <a href="#trueques" className="nav-link">
+                TRUEQUES
+              </a>
+              <a href="#comunidad" className="nav-link">
+                COMUNIDAD
+              </a>
+              <a href="#faqs" className="nav-link">
+                FAQ's
+              </a>
             </div>
           </div>
-          
+
           <div className="nav-center">
             <form onSubmit={handleSearch} className="search-form">
               <input
@@ -133,81 +127,110 @@ const Perfil: React.FC = () => {
           </div>
 
           <div className="nav-right">
-            <button className="nav-icon-btn message-btn" onClick={handleMessageClick}>
+            <button className="nav-icon-btn message-btn">
               <MessageSquare className="nav-icon" />
             </button>
-            <button className="nav-icon-btn notification-btn" onClick={handleNotificationClick}>
+            <button className="nav-icon-btn notification-btn">
               <Bell className="nav-icon" />
               <span className="notification-dot"></span>
             </button>
-            <button className="nav-icon-btn profile-btn" onClick={handleProfileClick}>
+            <button
+              className="nav-icon-btn profile-btn"
+              onClick={() => setProfileMenuOpen((prev) => !prev)}
+            >
               <User className="nav-icon" />
             </button>
+            {profileMenuOpen && (
+              <div className="profile-dropdown" ref={dropdownRef}>
+                <div className="dropdown-item">
+                  <User className="dropdown-icon" />
+                  <span>Cuenta</span>
+                </div>
+                <div className="dropdown-item">
+                  <HelpCircle className="dropdown-icon" />
+                  <span>Soporte</span>
+                </div>
+                <a href="./profile_settings">
+                <div className="dropdown-item">
+                  <Settings className="dropdown-icon" />
+                  <span>Ajustes</span>
+                </div>
+                </a>
+                <div className="dropdown-separator"></div>
+                <div className="dropdown-item change-account">
+                  <User className="dropdown-icon" />
+                  <span>Cambiar cuenta</span>
+                </div>
+                <a href="./login">
+                <div className="dropdown-item logout">
+                  <LogOut className="dropdown-icon" />
+                  <span>Cerrar sesión</span>
+                </div>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </nav>
 
-      {/* Main Content */}
       <div className="main-content">
         <div className="content-grid">
-          {/* Left Column - User Profile */}
+          {/* Left Column */}
           <div className="profile-section">
             <div className="profile-card">
               <div className="profile-avatar">
-                <img src={userData.avatar || "/placeholder.svg"} alt={userData.name} className="avatar-image" />
+                <img
+                  src={userData.avatar || "/placeholder.svg"}
+                  alt={userData.name}
+                  className="avatar-image"
+                />
               </div>
-              
               <div className="profile-info">
                 <div className="profile-header">
                   <h2 className="profile-name">
                     {userData.name}
-                    {userData.isVerified && <CheckCircle className="verified-icon" />}
+                    {userData.isVerified && (
+                      <CheckCircle className="verified-icon" />
+                    )}
                   </h2>
                   <div className="profile-location">
                     <MapPin className="location-icon" />
                     <span>{userData.location}</span>
                   </div>
                 </div>
-
                 <div className="profile-rating">
                   {[...Array(userData.rating)].map((_, i) => (
                     <Star key={i} className="star filled" />
                   ))}
                 </div>
-
-                <button className="edit-profile-btn" onClick={handleEditProfile}>
-                  Editar perfil
-                </button>
+                <button className="edit-profile-btn">Editar perfil</button>
               </div>
             </div>
-
             <div className="welcome-text">
               <p>{userData.welcomeText}</p>
             </div>
           </div>
 
-          {/* Center Column - Exchange Information */}
+          {/* Center Column */}
           <div className="exchange-section">
             <h3 className="section-title">Información de Intercambios</h3>
-            
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-number">{exchangeStats.completed}</div>
-                <div className="stat-label">intercambios realizados</div>
-                <div className="stat-sublabel">{exchangeStats.coursesCompleted}</div>
+                <div className="stat-label">Intercambios realizados</div>
+                <div className="stat-sublabel">
+                  {exchangeStats.coursesCompleted}
+                </div>
               </div>
-
               <div className="stat-card">
                 <div className="stat-number">{exchangeStats.enrolled}</div>
-                <div className="stat-label">Intercambios Inscrito</div>
+                <div className="stat-label">Intercambios inscritos</div>
                 <div className="stat-sublabel">{exchangeStats.coursesToTake}</div>
               </div>
-
               <div className="stat-card">
                 <div className="stat-number">{exchangeStats.knownPeople}</div>
-                <div className="stat-label">Persona conocidas</div>
+                <div className="stat-label">Personas conocidas</div>
               </div>
-
               <div className="stat-card">
                 <div className="stat-label">Personas de Intercambio</div>
                 <div className="stat-sublabel">{exchangeStats.instructors}</div>
@@ -215,40 +238,40 @@ const Perfil: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column - Skills and History */}
+          {/* Right Column */}
           <div className="skills-section">
             <div className="skills-card">
               <h3 className="section-title">Habilidades</h3>
               <div className="skills-grid">
-                {skills.map((skill, index) => (
-                  <span key={index} className={`skill-tag skill-${skill.color}`}>
+                {skills.map((skill, i) => (
+                  <span key={i} className={`skill-tag skill-${skill.color}`}>
                     {skill.name}
                   </span>
                 ))}
               </div>
-              <button className="view-more-btn" onClick={handleViewMore}>
-                Ver más
-              </button>
+              <button className="view-more-btn">Ver más</button>
             </div>
-
             <div className="history-card">
               <h3 className="section-title">Historial de intercambios</h3>
-              {exchangeHistory.map((exchange) => (
-                <div key={exchange.id} className="exchange-item">
+              {exchangeHistory.map((ex) => (
+                <div key={ex.id} className="exchange-item">
                   <div className="exchange-header">
                     <div className="exchange-avatar">
-                      <img src={exchange.avatar || "/placeholder.svg"} alt={exchange.partner} />
+                      <img
+                        src={ex.avatar || "/placeholder.svg"}
+                        alt={ex.partner}
+                      />
                     </div>
                     <div className="exchange-info">
-                      <h4 className="exchange-type">{exchange.type}</h4>
-                      <p className="exchange-description">"{exchange.description}"</p>
-                      <button className="view-details-btn" onClick={handleViewDetails}>
-                        Ver detalles
-                      </button>
+                      <h4 className="exchange-type">{ex.type}</h4>
+                      <p className="exchange-description">
+                        "{ex.description}"
+                      </p>
+                      <button className="view-details-btn">Ver detalles</button>
                     </div>
                   </div>
                   <div className="exchange-rating">
-                    {[...Array(exchange.rating)].map((_, i) => (
+                    {[...Array(ex.rating)].map((_, i) => (
                       <Star key={i} className="star filled" />
                     ))}
                   </div>
