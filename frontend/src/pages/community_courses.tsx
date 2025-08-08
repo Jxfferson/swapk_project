@@ -121,68 +121,55 @@ const CursosComunidad: React.FC = () => {
     <div className="cursos-comunidad-page">
       {/* Navigation */}
       <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-left">
-            <div className="logo">
-              <Settings className="logo-icon" />
-            </div>
-            <div className="nav-links">
-              <button 
-                className="nav-link" 
-                onClick={() => handleNavClick('inicio')}
-              >
-                INICIO
-              </button>
-              <button 
-                className="nav-link" 
-                onClick={() => handleNavClick('trueques')}
-              >
-                TRUEQUES
-              </button>
-              <button 
-                className="nav-link active" 
-                onClick={() => handleNavClick('comunidad')}
-              >
-                COMUNIDAD
-              </button>
-              <button 
-                className="nav-link" 
-                onClick={() => handleNavClick('faqs')}
-              >
-                FAQ's
-              </button>
-            </div>
-          </div>
-          
-          <div className="nav-center">
-            <form onSubmit={handleSearch} className="search-form">
-              <input
-                type="text"
-                placeholder="¿Qué aprenderás hoy?"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
-              />
-              <button type="submit" className="search-button">
-                <Search className="search-icon" />
-              </button>
-            </form>
-          </div>
-
-          <div className="nav-right">
-            <button className="nav-icon-btn message-btn" onClick={handleMessageClick}>
-              <MessageSquare className="nav-icon" />
-            </button>
-            <button className="nav-icon-btn notification-btn" onClick={handleNotificationClick}>
-              <Bell className="nav-icon" />
-              <span className="notification-dot"></span>
-            </button>
-            <button className="nav-icon-btn profile-btn" onClick={handleProfileClick}>
-              <User className="nav-icon" />
-            </button>
-          </div>
-        </div>
-      </nav>
+              <div className="nav-container">
+                <div className="nav-left">
+                  <div className="logo-container">
+                      <Image 
+                        src="/img/logoswapk.png"
+                        alt="Logo Swapk"
+                        width={35}
+                        height={35}
+                        className="logo"
+                      />
+                  </div>
+                  <div className="nav-links">
+                    <a href="#inicio" className="nav-link">INICIO</a>
+                    <a href="#trueques" className="nav-link">TRUEQUES</a>
+                    <a href="#comunidad" className="nav-link">COMUNIDAD</a>
+                    <a href="#faqs" className="nav-link">FAQ's</a>
+                  </div>
+                </div>
+                
+                <div className="nav-center">
+                  <form onSubmit={handleSearch} className="search-form">
+                    <input
+                      type="text"
+                      placeholder="¿Qué aprenderás hoy?"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="search-input"
+                    />
+                    <button type="submit" className="search-button">
+                      <Search className="search-icon" />
+                    </button>
+                  </form>
+                </div>
+      
+                <div className="nav-right">
+                  <button className="nav-icon-btn message-btn" onClick={handleMessageClick}>
+                    <MessageSquare className="nav-icon" />
+                  </button>
+                  <button className="nav-icon-btn notification-btn" onClick={handleNotificationClick}>
+                    <Bell className="nav-icon" />
+                    <span className="notification-dot"></span>
+                  </button>
+                  <button className="nav-icon-btn profile-btn" onClick={handleProfileClick}>
+                    <User className="nav-icon" />
+                  </button>
+                </div>
+              </div>
+            </nav>
+      
 
       {/* Main Content */}
       <div className="main-content">

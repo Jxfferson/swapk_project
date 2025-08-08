@@ -1,7 +1,8 @@
 "use client"
-
 import { useState } from "react"
 import { Search, Settings, Bell, MessageSquare, Download, Eye, ChevronLeft, Menu } from "lucide-react"
+import Image from 'next/image';
+
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
