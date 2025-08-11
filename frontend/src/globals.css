@@ -125,7 +125,46 @@
   }
 }
 
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Importar Montserrat y Roboto desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+/* Declarar Hussar Bold (si es local) */
+@font-face {
+  font-family: 'Hussar Bold';
+  src: url('/assets/fonts/HussarBold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Aplicar fuentes globalmente */
+body {
+  font-family: 'Roboto', sans-serif; /* Fuente por defecto */
+}
+
+a{
+    text-decoration: none;
+}
+
+
+h1, h2, h3 {
+  font-family: 'Roboto', sans-serif; /* Para títulos */
+}
+
+.bold-text {
+  font-family: 'Hussar Bold', sans-serif; /* Para textos destacados */
+}
+
 /* Custom scrollbar for dark theme */
+
+html {
+  scroll-behavior: smooth;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

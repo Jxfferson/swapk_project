@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
-from dtos.habilidad_dto import HabilidadCreateDTO
+from backend.schemas.habilidad_schema import HabilidadCreateDTO
 from sqlalchemy.orm import session
 from db.sessions import Sessionlocal
-from models.habilidad import Habilidad
+from backend.models.habilidad import Habilidad
 
 #ApiRouter permite dividir las rutas en archivos
 

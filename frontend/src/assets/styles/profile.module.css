@@ -1,0 +1,126 @@
+/* Contenedor principal - Manteniendo navbar intacto */
+.profileContent {
+  max-width: 1200px;
+  margin: 2rem auto;
+  width: 100%;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Encabezado del perfil */
+.profileHeader {
+  margin-bottom: 2rem;
+}
+
+.profilePage{
+  background-color: #141414;
+}
+
+.profileName {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.profileLocation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.profileBio {
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Secciones */
+.profileSection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Estadísticas */
+.exchangeStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.exchangeStat {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.exchangeSubtext {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* Habilidades */
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.skillTag {
+  background: #e0e7ff;
+  color: #3b82f6;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.viewMore {
+  color: #3b82f6;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Historial */
+.exchangeItem {
+  margin-bottom: 1.5rem;
+}
+
+.exchangeTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.exchangeDescription {
+  color: #475569;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.viewDetails {
+  color: #3b82f6;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .exchangeStats {
+    grid-template-columns: 1fr;
+  }
+  
+  .profileContent {
+    padding: 0 1rem;
+  }
+}

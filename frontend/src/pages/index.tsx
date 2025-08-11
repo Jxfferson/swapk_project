@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Settings, FileText, Search, Handshake, ChevronLeft, ChevronRight, Star, Router } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
-
+import styles from '../assets/styles/inicio.module.css'; 
+import navbar from '../assets/styles/navbar.module.css'; 
 
 
 interface Testimonial {
@@ -16,6 +17,7 @@ interface Testimonial {
 
 const Inicio: React.FC = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const testimonials: Testimonial[] = [
     {
@@ -44,6 +46,7 @@ const Inicio: React.FC = () => {
     }
   ];
 
+
   const nextTestimonial = (): void => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
   };
@@ -61,18 +64,23 @@ const Inicio: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleSearch = (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log("Searching:", searchQuery);
+  };
+
   const router = useRouter();
-  // Event handlers
+
   const handleLoginClick = (): void => {
     router.push("/login");
   };
 
   const handleSignupClick = (): void => {
-    console.log('/registerPage');
+    router.push("/register");
   };
 
   const handleJoinClick = (): void => {
-    console.log('/registerPage');
+    router.push("/register");
   };
 
   const handleHowItWorksClick = (): void => {
@@ -92,114 +100,138 @@ const Inicio: React.FC = () => {
   };
 
   return (
-    <div className="swapk-landing">
+    <div className={styles['swapk-landing']}>
       {/* Navigation */}
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-left">
-            <div className="logo-container">
+      <nav className={navbar.navbar}>
+        <div className={navbar["nav-container"]}>
+          <div className={navbar["nav-left"]}>
+            <div className={navbar.logo}>
+              <div className={styles.logoContainer}>
               <Image 
                 src="/img/logoswapk.png"
                 alt="Logo Swapk"
-                width={35}
-                height={35}
-                className="logo"
+                width={25}
+                height={25}
+                className={styles.logo}
               />
             </div>
-            <div className="nav-links">
-              <a href="#inicio" className="nav-link">INICIO</a>
-              <a href="#trueques" className="nav-link">TRUEQUES</a>
-              <a href="#comunidad" className="nav-link">COMUNIDAD</a>
-              <a href="#faqs" className="nav-link">FAQ's</a>
+            </div>
+            <div className={navbar["main-nav-links"]}>
+              <button className={navbar["main-nav-link"]} onClick={() => console.log("INICIO clicked")}>
+                INICIO
+              </button>
+              <button className={navbar["main-nav-link"]} onClick={() => console.log("TRUEQUES clicked")}>
+                TRUEQUES
+              </button>
+              <button className={`${navbar["main-nav-link"]} ${navbar.active}`} onClick={() => console.log("COMUNIDAD clicked")}>
+                COMUNIDAD
+              </button>
+              <button className={navbar["main-nav-link"]} onClick={() => console.log("FAQS clicked")}>
+                FAQ's
+              </button>
             </div>
           </div>
-          <div className="nav-right">
-            <a href="./login">
-            <button className="btn-secondary" onClick={handleLoginClick}>
+
+          <div className={navbar["nav-center"]}>
+            <form onSubmit={handleSearch} className={navbar["search-form"]}>
+              <input
+                type="text"
+                placeholder="Buscar en Swapk"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={navbar["search-input"]}
+              />
+              <button type="submit" className={navbar["search-button"]}>
+                <Search className={navbar["search-icon"]} />
+              </button>
+            </form>
+          </div>
+
+
+          <div className={styles['nav-right']}>
+            <button className={styles['btn-secondary']} onClick={handleLoginClick}>
               Iniciar Sesión
             </button>
-            </a>
-            <a href="./register">
-            <button className="btn-primary" onClick={handleSignupClick}>
+            <button className={styles['btn-primary']} onClick={handleSignupClick}>
               Crea cuenta gratis
             </button>
-            </a>
           </div>
         </div>
       </nav>
-      {/* SECCIÓN 1: Minds Section - "¿Qué pasa cuando 2 mentes se encuentran?" */}
-      <section className="minds-section">
-        <div className="minds-container">
-          <h2 className="minds-title">
-            ¿Qué pasa cuando 2 <span className="text-blue">mentes</span> se encuentran?
+
+      {/* SECCIÓN 1: Minds Section */}
+      <section className={styles['minds-section']}>
+        <div className={styles['minds-container']}>
+          <h2 className={styles['minds-title']}>
+            ¿Qué pasa cuando 2 <span className={styles['text-blue']}>mentes</span> se encuentran?
           </h2>
-          <p className="minds-subtitle">
+          <p className={styles['minds-subtitle']}>
             Aprende, enseña y conecta como nunca antes.
           </p>
           
-          <div className="stats-container">
-            <p className="stats-text">
+          <div className={styles['stats-container']}>
+            <p className={styles['stats-text']}>
               "Únete a 5,000+ personas que ya están<br />
               revitalizando sus habilidades."
             </p>
           </div>
 
-          <div className="cta-buttons">
-            <button className="btn-outline" onClick={handleHowItWorksClick}>
+          <div className={styles['cta-buttons']}>
+            <button className={styles['btn-outline']} onClick={handleHowItWorksClick}>
               ¿CÓMO FUNCIONA?
             </button>
-            <button className="btn-primary" onClick={handleFindExchangeClick}>
+            <a href="./register">
+            <button className={styles['btn-primary']} onClick={handleFindExchangeClick}>
               ENCUENTRA TU INTERCAMBIO
             </button>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* SECCIÓN 2: Hero Section - "¿No puedes pagar cursos?" */}
-      <section className="hero-section" id="inicio">
-        <div className="hero-container">
-          <div className="hero-content">
-            <h1 className="hero-title">
-              ¿No puedes pagar <span className="text-blue">cursos</span>?
+      {/* SECCIÓN 2: Hero Section */}
+      <section className={styles['hero-section']} id="inicio">
+        <div className={styles['hero-container']}>
+          <div className={styles['hero-content']}>
+            <h1 className={styles['hero-title']}>
+              ¿No puedes pagar <span className={styles['text-blue']}>cursos</span>?
             </h1>
-            <p className="hero-subtitle">
+            <p className={styles['hero-subtitle']}>
               Muchos como tú, tienen habilidades para intercambiar.<br />
               Aquí lo hacemos posible
             </p>
-            <a href="./register">
-            <button className="cta-button" onClick={handleJoinClick}>
-              ÚNETE A <span className="text-gray">SWAPK</span> GRATIS
+            <button className={styles['cta-button']} onClick={handleJoinClick}>
+              ÚNETE A <span className={styles['text-gray']}>SWAPK</span> GRATIS
             </button>
-            </a>
           </div>
 
-          <div className="hero-features">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <FileText className="icon" />
+          <div className={styles['hero-features']}>
+            <div className={styles['feature-card']}>
+              <div className={styles['feature-icon']}>
+                <FileText className={styles.icon} />
               </div>
-              <div className="feature-content">
-                <h3>Registra tus <span className="text-blue">habilidades</span></h3>
+              <div className={styles['feature-content']}>
+                <h3>Registra tus <span className={styles['text-blue']}>habilidades</span></h3>
                 <p>(que tú ofreces y que necesitas)</p>
               </div>
             </div>
 
-            <div className="feature-card">
-              <div className="feature-icon">
-                <Search className="icon" />
+            <div className={styles['feature-card']}>
+              <div className={styles['feature-icon']}>
+                <Search className={styles.icon} />
               </div>
-              <div className="feature-content">
-                <h3>Encuentra a tu pareja de <span className="text-blue">intercambio</span></h3>
+              <div className={styles['feature-content']}>
+                <h3>Encuentra a tu pareja de <span className={styles['text-blue']}>intercambio</span></h3>
                 <p>con nuestro buscador inteligente</p>
               </div>
             </div>
 
-            <div className="feature-card">
-              <div className="feature-icon">
-                <Handshake className="icon" />
+            <div className={styles['feature-card']}>
+              <div className={styles['feature-icon']}>
+                <Handshake className={styles.icon} />
               </div>
-              <div className="feature-content">
-                <h3>Acuerda el <span className="text-blue">intercambio</span></h3>
+              <div className={styles['feature-content']}>
+                <h3>Acuerda el <span className={styles['text-blue']}>intercambio</span></h3>
                 <p>y aprende sin costos</p>
               </div>
             </div>
@@ -207,95 +239,92 @@ const Inicio: React.FC = () => {
         </div>
       </section>
 
-
-      {/* SECCIÓN 3: Mission & Vision Section - "Descubre la misión y visión de Swapk" */}
-      <section className="mission-section">
-        <div className="mission-container">
-          <div className="mission-content">
-            <h2 className="section-title">
-              Descubre la misión y visión de <span className="text-bluetone">Swapk</span>
+      {/* SECCIÓN 3: Mission & Vision Section */}
+      <section className={styles['mission-section']}>
+        <div className={styles['mission-container']}>
+          <div className={styles['mission-content']}>
+            <h2 className={styles['section-title']}>
+              Descubre la misión y visión de <span className={styles['text-bluetone']}>Swapk</span>
             </h2>
 
-            <div className="mission-vision-grid">
-              <div className="mission-card">
-                <h3 className="card-title text-blue">NUESTRA MISIÓN</h3>
-                <p className="card-text">
+            <div className={styles['mission-vision-grid']}>
+              <div className={styles['mission-card']}>
+                <h3 className={`${styles['card-title']} ${styles['text-blue']}`}>NUESTRA MISIÓN</h3>
+                <p className={styles['card-text']}>
                   "Revolucionar la educación mediante experiencias de aprendizaje innovadoras, 
                   haciendo que el conocimiento de calidad sea accesible para todos a través del intercambio 
                   de habilidades."
                 </p>
-                <button className="btn-outline" onClick={handleLearnMoreClick}>
+                <button className={styles['btn-outline']} onClick={handleLearnMoreClick}>
                   CONOCE CÓMO LO HACEMOS
                 </button>
               </div>
 
-              <div className="mission-card">
-                <h3 className="card-title text-blue">NUESTRA VISIÓN</h3>
-                <p className="card-text">
+              <div className={styles['mission-card']}>
+                <h3 className={`${styles['card-title']} ${styles['text-blue']}`}>NUESTRA VISIÓN</h3>
+                <p className={styles['card-text']}>
                   "Ser la red global líder en aprendizaje colaborativo, donde cada persona pueda 
                   desarrollar sus habilidades a través del intercambio, sin que el dinero sea una barrera 
                   para crecer."
                 </p>
-                <button className="btn-outline" onClick={handleDiscoverGoalsClick}>
+                <button className={styles['btn-outline']} onClick={handleDiscoverGoalsClick}>
                   DESCUBRE NUESTRAS METAS
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="mission-illustration">
-            <div className="learning-environment">
-              <div className="student-workspace"></div>
-              <div className="books-shelf"></div>
-              <div className="learning-tools"></div>
+          <div className={styles['mission-illustration']}>
+            <div className={styles['learning-environment']}>
+              <div className={styles['student-workspace']}></div>
+              <div className={styles['books-shelf']}></div>
+              <div className={styles['learning-tools']}></div>
             </div>
           </div>
         </div>
       </section>
 
       {/* SECCIÓN 4: Testimonials Section */}
-      <section className="testimonials-section">
-        <div className="testimonials-container">
-          <div className="testimonial-card">
-            <div className="testimonial-content">
-              <div className="testimonial-avatar">
+      <section className={styles['testimonials-section']}>
+        <div className={styles['testimonials-container']}>
+          <div className={styles['testimonial-card']}>
+            <div className={styles['testimonial-content']}>
+              <div className={styles['testimonial-avatar']}>
                 <img 
                   src={testimonials[currentTestimonial].image || "/placeholder.svg"} 
                   alt={testimonials[currentTestimonial].name}
-                  className="avatar-image"
+                  className={styles['avatar-image']}
                 />
               </div>
-                <div className="quote-mark">|</div>
-              <div className="testimonial-text">
-                <p className="testimonial-quote">
-                  "<span className="text-blue">Swapk</span> {testimonials[currentTestimonial].text}"
+              <div className={styles['testimonial-text']}>
+                <p className={styles['testimonial-quote']}>
+                  <span className={styles['text-blue']}>Swapk</span> {testimonials[currentTestimonial].text}
                 </p>
                 
-                <div className="testimonial-author">
-                  <p className="author-name">— {testimonials[currentTestimonial].name}</p>
-                  <p className="author-role">{testimonials[currentTestimonial].role}</p>
+                <div className={styles['testimonial-author']}>
+                  <p className={styles['author-name']}>— {testimonials[currentTestimonial].name}</p>
+                  <p className={styles['author-role']}>{testimonials[currentTestimonial].role}</p>
                 </div>
 
-                <div className="testimonial-footer">
-                  <div className="rating">
+                <div className={styles['testimonial-footer']}>
+                  <div className={styles.rating}>
                     {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                      <Star key={i} className="star filled" />
+                      <Star key={i} className={`${styles.star} ${styles.filled}`} />
                     ))}
                   </div>
-                  <div className="swapk-badge">
-                    <span>Sw</span><span className="text-blue">a</span><span>pk</span>
-                    
+                  <div className={styles['swapk-badge']}>
+                    <span className={styles["white-text"]}>Sw</span><span className={styles['text-blue']}>a</span><span>pk</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="testimonial-dots">
+          <div className={styles['testimonial-dots']}>
             {testimonials.map((_, index) => (
               <button
                 key={index}
-                className={`dot ${index === currentTestimonial ? 'active' : ''}`}
+                className={`${styles.dot} ${index === currentTestimonial ? styles.active : ''}`}
                 onClick={() => goToTestimonial(index)}
                 aria-label={`Ir al testimonio ${index + 1}`}
               />
@@ -305,8 +334,8 @@ const Inicio: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
+      <footer className={styles.footer}>
+        <div className={styles['footer-content']}>
           <p>© 2025 Swapk. Todos los derechos reservados.</p>
         </div>
       </footer>

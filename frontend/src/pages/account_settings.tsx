@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { Search, Settings, Bell, MessageSquare, Download, Eye, ChevronLeft, Menu } from "lucide-react"
 import Image from 'next/image';
-
+import styles from "../assets/styles/dashboard.module.css";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -28,130 +28,137 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="dashboard">
+    <div className={styles.dashboard}>
       {/* Top Navigation */}
-      <nav className="top-nav">
-        <div className="nav-container">
-          <div className="nav-left">
-            <div className="logo">
-              <Settings className="logo-icon" />
+      <nav className={styles['top-nav']}>
+        <div className={styles['nav-container']}>
+          <div className={styles['nav-left']}>
+            <div className={styles.logo}>
+              <Settings className={styles['logo-icon']} />
             </div>
-            <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <button 
+              className={styles['mobile-menu-btn']} 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
               <Menu />
             </button>
-            <div className={`nav-links ${mobileMenuOpen ? "nav-links-open" : ""}`}>
-              <a href="#" className="nav-link">
+            <div className={`${styles['nav-links']} ${mobileMenuOpen ? styles['nav-links-open'] : ''}`}>
+              <a href="#" className={styles['nav-link']}>
                 INICIO
               </a>
-              <a href="#" className="nav-link">
+              <a href="#" className={styles['nav-link']}>
                 TRUEQUES
               </a>
-              <a href="#" className="nav-link">
+              <a href="#" className={styles['nav-link']}>
                 COMUNIDAD
               </a>
-              <a href="#" className="nav-link">
+              <a href="#" className={styles['nav-link']}>
                 FAQ's
               </a>
             </div>
           </div>
 
-          <div className="nav-right">
-            <div className="search-container">
-              <input type="text" placeholder="¿Qué aprenderás hoy?" className="search-input" />
-              <Search className="search-icon" />
+          <div className={styles['nav-right']}>
+            <div className={styles['search-container']}>
+              <input 
+                type="text" 
+                placeholder="¿Qué aprenderás hoy?" 
+                className={styles['search-input']} 
+              />
+              <Search className={styles['search-icon']} />
             </div>
-            <button className="icon-btn message-btn">
+            <button className={`${styles['icon-btn']} ${styles['message-btn']}`}>
               <MessageSquare />
             </button>
-            <button className="icon-btn notification-btn">
+            <button className={`${styles['icon-btn']} ${styles['notification-btn']}`}>
               <Bell />
-              <span className="notification-dot"></span>
+              <span className={styles['notification-dot']}></span>
             </button>
-            <div className="avatar">
+            <div className={styles.avatar}>
               <span>U</span>
             </div>
           </div>
         </div>
       </nav>
 
-      <div className="main-container">
+      <div className={styles['main-container']}>
         {/* Sidebar */}
-        <aside className={`sidebar ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
-          <div className="sidebar-content">
-            <div className="sidebar-header">
-              <ChevronLeft className="sidebar-icon" />
-              <h2 className="sidebar-title">Ajustes</h2>
+        <aside className={`${styles.sidebar} ${sidebarOpen ? styles['sidebar-open'] : styles['sidebar-closed']}`}>
+          <div className={styles['sidebar-content']}>
+            <div className={styles['sidebar-header']}>
+              <ChevronLeft className={styles['sidebar-icon']} />
+              <h2 className={styles['sidebar-title']}>Ajustes</h2>
             </div>
 
-            <div className="sidebar-sections">
-              <div className="sidebar-section">
-                <h3 className="section-title">Configuración de mi cuenta</h3>
-                <ul className="section-links">
+            <div className={styles['sidebar-sections']}>
+              <div className={styles['sidebar-section']}>
+                <h3 className={styles['section-title']}>Configuración de mi cuenta</h3>
+                <ul className={styles['section-links']}>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Cambiar correo electrónico
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Cambiar contraseña
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Eliminar cuenta
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Notificaciones
                     </a>
                   </li>
                 </ul>
               </div>
 
-              <div className="sidebar-section">
-                <h3 className="section-title">Preferencias de la plataforma</h3>
-                <ul className="section-links">
+              <div className={styles['sidebar-section']}>
+                <h3 className={styles['section-title']}>Preferencias de la plataforma</h3>
+                <ul className={styles['section-links']}>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Idioma
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Tema: Claro / Oscuro
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Modalidad preferida
                     </a>
                   </li>
                 </ul>
               </div>
 
-              <div className="sidebar-section">
-                <h3 className="section-title">Privacidad y seguridad</h3>
-                <ul className="section-links">
+              <div className={styles['sidebar-section']}>
+                <h3 className={styles['section-title']}>Privacidad y seguridad</h3>
+                <ul className={styles['section-links']}>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Quién puede ver tu perfil
                     </a>
                   </li>
                 </ul>
               </div>
 
-              <div className="sidebar-section">
-                <h3 className="section-title">Certificaciones y validaciones</h3>
-                <ul className="section-links">
+              <div className={styles['sidebar-section']}>
+                <h3 className={styles['section-title']}>Certificaciones y validaciones</h3>
+                <ul className={styles['section-links']}>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Subir o actualizar soportes
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="section-link">
+                    <a href="#" className={styles['section-link']}>
                       Ver estado de verificación de habilidades
                     </a>
                   </li>
@@ -162,13 +169,13 @@ export default function Dashboard() {
         </aside>
 
         {/* Main Content */}
-        <main className="main-content">
-          <div className="content-header">
-            <h1 className="page-title">Subir soporte</h1>
+        <main className={styles['main-content']}>
+          <div className={styles['content-header']}>
+            <h1 className={styles['page-title']}>Subir soporte</h1>
           </div>
 
-          <div className="table-container">
-            <table className="support-table">
+          <div className={styles['table-container']}>
+            <table className={styles['support-table']}>
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -181,29 +188,29 @@ export default function Dashboard() {
               <tbody>
                 {supportData.map((item, index) => (
                   <tr key={index}>
-                    <td className="name-cell">{item.name}</td>
+                    <td className={styles['name-cell']}>{item.name}</td>
                     <td>
-                      <span className="badge badge-type">{item.type}</span>
+                      <span className={`${styles.badge} ${styles['badge-type']}`}>{item.type}</span>
                     </td>
                     <td>
-                      <span className="badge badge-status">{item.status}</span>
+                      <span className={`${styles.badge} ${styles['badge-status']}`}>{item.status}</span>
                     </td>
-                    <td className="date-cell">
-                      <div className="date-info">
+                    <td className={styles['date-cell']}>
+                      <div className={styles['date-info']}>
                         <span>{item.date}</span>
                         <span>{item.time}</span>
                         <span>{item.score}</span>
                       </div>
                     </td>
                     <td>
-                      <div className="action-buttons">
-                        <button className="btn btn-view">
-                          <Eye className="btn-icon" />
+                      <div className={styles['action-buttons']}>
+                        <button className={`${styles.btn} ${styles['btn-view']}`}>
+                          <Eye className={styles['btn-icon']} />
                           Ver
                         </button>
                         {index === 1 && (
-                          <button className="btn btn-download">
-                            <Download className="btn-icon" />
+                          <button className={`${styles.btn} ${styles['btn-download']}`}>
+                            <Download className={styles['btn-icon']} />
                             Descargar
                           </button>
                         )}
@@ -215,8 +222,8 @@ export default function Dashboard() {
             </table>
           </div>
 
-          <div className="table-footer">
-            <button className="btn btn-primary">Ver más</button>
+          <div className={styles['table-footer']}>
+            <button className={`${styles.btn} ${styles['btn-primary']}`}>Ver más</button>
           </div>
         </main>
       </div>

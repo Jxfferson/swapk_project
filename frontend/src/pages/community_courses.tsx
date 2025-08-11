@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Settings, Search, MessageSquare, Bell, User } from 'lucide-react';
 import Image from 'next/image';
+import styles from "../assets/styles/community_courses.module.css";
 
 interface Course {
   id: number;
@@ -118,99 +119,98 @@ const CursosComunidad: React.FC = () => {
   };
 
   return (
-    <div className="cursos-comunidad-page">
+    <div className={styles['cursos-comunidad-page']}>
       {/* Navigation */}
-      <nav className="navbar">
-              <div className="nav-container">
-                <div className="nav-left">
-                  <div className="logo-container">
-                      <Image 
-                        src="/img/logoswapk.png"
-                        alt="Logo Swapk"
-                        width={35}
-                        height={35}
-                        className="logo"
-                      />
-                  </div>
-                  <div className="nav-links">
-                    <a href="#inicio" className="nav-link">INICIO</a>
-                    <a href="#trueques" className="nav-link">TRUEQUES</a>
-                    <a href="#comunidad" className="nav-link">COMUNIDAD</a>
-                    <a href="#faqs" className="nav-link">FAQ's</a>
-                  </div>
-                </div>
-                
-                <div className="nav-center">
-                  <form onSubmit={handleSearch} className="search-form">
-                    <input
-                      type="text"
-                      placeholder="¿Qué aprenderás hoy?"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="search-input"
-                    />
-                    <button type="submit" className="search-button">
-                      <Search className="search-icon" />
-                    </button>
-                  </form>
-                </div>
-      
-                <div className="nav-right">
-                  <button className="nav-icon-btn message-btn" onClick={handleMessageClick}>
-                    <MessageSquare className="nav-icon" />
-                  </button>
-                  <button className="nav-icon-btn notification-btn" onClick={handleNotificationClick}>
-                    <Bell className="nav-icon" />
-                    <span className="notification-dot"></span>
-                  </button>
-                  <button className="nav-icon-btn profile-btn" onClick={handleProfileClick}>
-                    <User className="nav-icon" />
-                  </button>
-                </div>
-              </div>
-            </nav>
-      
+      <nav className={styles.navbar}>
+        <div className={styles['nav-container']}>
+          <div className={styles['nav-left']}>
+            <div className={styles['logo-container']}>
+              <Image 
+                src="/img/logoswapk.png"
+                alt="Logo Swapk"
+                width={35}
+                height={35}
+                className={styles.logo}
+              />
+            </div>
+            <div className={styles['nav-links']}>
+              <a href="#inicio" className={styles['nav-link']}>INICIO</a>
+              <a href="#trueques" className={styles['nav-link']}>TRUEQUES</a>
+              <a href="#comunidad" className={styles['nav-link']}>COMUNIDAD</a>
+              <a href="#faqs" className={styles['nav-link']}>FAQ's</a>
+            </div>
+          </div>
+          
+          <div className={styles['nav-center']}>
+            <form onSubmit={handleSearch} className={styles['search-form']}>
+              <input
+                type="text"
+                placeholder="¿Qué aprenderás hoy?"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={styles['search-input']}
+              />
+              <button type="submit" className={styles['search-button']}>
+                <Search className={styles['search-icon']} />
+              </button>
+            </form>
+          </div>
+
+          <div className={styles['nav-right']}>
+            <button className={`${styles['nav-icon-btn']} ${styles['message-btn']}`} onClick={handleMessageClick}>
+              <MessageSquare className={styles['nav-icon']} />
+            </button>
+            <button className={`${styles['nav-icon-btn']} ${styles['notification-btn']}`} onClick={handleNotificationClick}>
+              <Bell className={styles['nav-icon']} />
+              <span className={styles['notification-dot']}></span>
+            </button>
+            <button className={`${styles['nav-icon-btn']} ${styles['profile-btn']}`} onClick={handleProfileClick}>
+              <User className={styles['nav-icon']} />
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* Main Content */}
-      <div className="main-content">
-        <div className="content-header">
-          <h1 className="page-title">Cursos de la comunidad</h1>
-          <button className="create-course-btn" onClick={handleCreateCourse}>
+      <div className={styles['main-content']}>
+        <div className={styles['content-header']}>
+          <h1 className={styles['page-title']}>Cursos de la comunidad</h1>
+          <button className={styles['create-course-btn']} onClick={handleCreateCourse}>
             Crear curso
           </button>
         </div>
 
         {/* Courses Grid */}
-        <div className="courses-grid">
+        <div className={styles['courses-grid']}>
           {courses.map((course) => (
-            <div key={course.id} className="course-card">
-              <div className="course-image">
+            <div key={course.id} className={styles['course-card']}>
+              <div className={styles['course-image']}>
                 <img src={course.image || "/placeholder.svg"} alt={course.title} />
-                <div className="user-avatar">
+                <div className={styles['user-avatar']}>
                   <img src={course.userAvatar || "/placeholder.svg"} alt={course.userName} />
-                  {course.isOnline && <div className="online-indicator"></div>}
+                  {course.isOnline && <div className={styles['online-indicator']}></div>}
                 </div>
               </div>
               
-              <div className="course-content">
-                <div className="user-info">
-                  <span className="user-name">{course.userName}</span>
+              <div className={styles['course-content']}>
+                <div className={styles['user-info']}>
+                  <span className={styles['user-name']}>{course.userName}</span>
                 </div>
                 
-                <h3 className="course-title">{course.title}</h3>
-                <p className="course-category">{course.category}</p>
-                <p className="course-profession">{course.profession}</p>
+                <h3 className={styles['course-title']}>{course.title}</h3>
+                <p className={styles['course-category']}>{course.category}</p>
+                <p className={styles['course-profession']}>{course.profession}</p>
                 
-                <div className="course-hashtags">
+                <div className={styles['course-hashtags']}>
                   {course.hashtags.map((hashtag, index) => (
-                    <span key={index} className="hashtag">
+                    <span key={index} className={styles.hashtag}>
                       {hashtag}
                     </span>
                   ))}
                 </div>
                 
                 <button 
-                  className="view-more-btn"
+                  className={styles['view-more-btn']}
                   onClick={() => handleViewMore(course.id)}
                 >
                   Ver más
@@ -222,26 +222,26 @@ const CursosComunidad: React.FC = () => {
 
         {/* Loading indicator */}
         {loading && (
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
+          <div className={styles['loading-container']}>
+            <div className={styles['loading-spinner']}></div>
             <p>Cargando más cursos...</p>
           </div>
         )}
 
         {/* Call to Action Section */}
         {!hasMore && (
-          <div className="cta-section">
-            <div className="cta-content">
-              <h2 className="cta-title">¿Muy interesante no?</h2>
-              <p className="cta-subtitle">
+          <div className={styles['cta-section']}>
+            <div className={styles['cta-content']}>
+              <h2 className={styles['cta-title']}>¿Muy interesante no?</h2>
+              <p className={styles['cta-subtitle']}>
                 ¿Acaso quieres compartir cursos con los demás?
               </p>
-              <button className="cta-button" onClick={handleCreateCourse}>
+              <button className={styles['cta-button']} onClick={handleCreateCourse}>
                 Crear curso
               </button>
             </div>
-            <div className="cta-illustration">
-              <div className="books-stack"></div>
+            <div className={styles['cta-illustration']}>
+              <div className={styles['books-stack']}></div>
             </div>
           </div>
         )}

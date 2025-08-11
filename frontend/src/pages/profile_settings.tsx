@@ -17,6 +17,7 @@ import {
   Phone,
 } from "lucide-react";
 import Image from 'next/image';
+import styles from "../assets/styles/profile_settings.module.css";
 
 interface UserData {
   username: string;
@@ -41,7 +42,6 @@ const ProfileSettings: React.FC = () => {
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Cerrar el menu
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -59,7 +59,6 @@ const ProfileSettings: React.FC = () => {
 
   const maxDescriptionLength = 255;
 
-  // Event handlers
   const handleSaveChanges = (): void => {
     console.log('Guardando cambios...');
   };
@@ -89,96 +88,96 @@ const ProfileSettings: React.FC = () => {
   };
 
   const handleSearch = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log("Buscando:", searchQuery);
+    e.preventDefault();
+    console.log("Buscando:", searchQuery);
   };
 
   return (
-    <div className="profile-settings-page">
+    <div className={styles.profileSettingsPage}>
       {/* Header Navigation */}
-        <nav className="navbar">
-        <div className="nav-container">
-          <div className="nav-left">
-            <div className="logo-container">
-                <Image 
-                    src="/img/logoswapk.png"
-                    alt="Logo Swapk"
-                    width={35}
-                    height={35}
-                    className="logo"
-                />
+      <nav className={styles.navbar}>
+        <div className={styles.navContainer}>
+          <div className={styles.navLeft}>
+            <div className={styles.logoContainer}>
+              <Image 
+                src="/img/logoswapk.png"
+                alt="Logo Swapk"
+                width={35}
+                height={35}
+                className={styles.logo}
+              />
             </div>
-            <div className="nav-links">
-              <a href="#inicio" className="nav-link">
+            <div className={styles.navLinks}>
+              <a href="#inicio" className={styles.navLink}>
                 INICIO
               </a>
-              <a href="#trueques" className="nav-link">
+              <a href="#trueques" className={styles.navLink}>
                 TRUEQUES
               </a>
-              <a href="#comunidad" className="nav-link">
+              <a href="#comunidad" className={styles.navLink}>
                 COMUNIDAD
               </a>
-              <a href="#faqs" className="nav-link">
+              <a href="#faqs" className={styles.navLink}>
                 FAQ's
               </a>
             </div>
           </div>
 
-          <div className="nav-center">
-            <form onSubmit={handleSearch} className="search-form">
+          <div className={styles.navCenter}>
+            <form onSubmit={handleSearch} className={styles.searchForm}>
               <input
                 type="text"
                 placeholder="¿Qué aprenderás hoy?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
+                className={styles.searchInput}
               />
-              <button type="submit" className="search-button">
-                <Search className="search-icon" />
+              <button type="submit" className={styles.searchButton}>
+                <Search className={styles.searchIcon} />
               </button>
             </form>
           </div>
 
-          <div className="nav-right">
-            <button className="nav-icon-btn message-btn">
-              <MessageSquare className="nav-icon" />
+          <div className={styles.navRight}>
+            <button className={`${styles.navIconBtn} ${styles.messageBtn}`}>
+              <MessageSquare className={styles.navIcon} />
             </button>
-            <button className="nav-icon-btn notification-btn">
-              <Bell className="nav-icon" />
-              <span className="notification-dot"></span>
+            <button className={`${styles.navIconBtn} ${styles.notificationBtn}`}>
+              <Bell className={styles.navIcon} />
+              <span className={styles.notificationDot}></span>
             </button>
             <button
-              className="nav-icon-btn profile-btn"
+              className={`${styles.navIconBtn} ${styles.profileBtn}`}
               onClick={() => setProfileMenuOpen((prev) => !prev)}
             >
-              <User className="nav-icon" />
+              <User className={styles.navIcon} />
             </button>
             {profileMenuOpen && (
-              <div className="profile-dropdown" ref={dropdownRef}>
-                <div className="dropdown-item">
-                  <User className="dropdown-icon" />
+              <div className={styles.profileDropdown} ref={dropdownRef}>
+                <div className={styles.dropdownItem}>
+                  <User className={styles.dropdownIcon} />
                   <span>Cuenta</span>
                 </div>
-                <div className="dropdown-item">
-                  <HelpCircle className="dropdown-icon" />
+                <div className={styles.dropdownItem}>
+                  <HelpCircle className={styles.dropdownIcon} />
                   <span>Soporte</span>
                 </div>
                 <a href="./profile_settings">
-                <div className="dropdown-item">
-                  <Settings className="dropdown-icon" />
-                  <span>Ajustes</span>
-                </div>
+                  <div className={styles.dropdownItem}>
+                    <Settings className={styles.dropdownIcon} />
+                    <span>Ajustes</span>
+                  </div>
                 </a>
-                <div className="dropdown-separator"></div>
-                <div className="dropdown-item change-account">
-                  <User className="dropdown-icon" />
+                <div className={styles.dropdownSeparator}></div>
+                <div className={`${styles.dropdownItem} ${styles.changeAccount}`}>
+                  <User className={styles.dropdownIcon} />
                   <span>Cambiar cuenta</span>
                 </div>
                 <a href="./login">
-                <div className="dropdown-item logout">
-                  <LogOut className="dropdown-icon" />
-                  <span>Cerrar sesión</span>
-                </div>
+                  <div className={`${styles.dropdownItem} ${styles.logout}`}>
+                    <LogOut className={styles.dropdownIcon} />
+                    <span>Cerrar sesión</span>
+                  </div>
                 </a>
               </div>
             )}
@@ -187,157 +186,157 @@ const ProfileSettings: React.FC = () => {
       </nav>
 
       {/* Main Layout */}
-      <div className="profile-layout">
+      <div className={styles.profileLayout}>
         {/* Sidebar */}
-        <aside className="profile-sidebar">
-          <div className="sidebar-header">
-            <Settings className="sidebar-icon" />
-            <span className="sidebar-title">Ajustes</span>
+        <aside className={styles.profileSidebar}>
+          <div className={styles.sidebarHeader}>
+            <Settings className={styles.sidebarIcon} />
+            <span className={styles.sidebarTitle}>Ajustes</span>
           </div>
           
-          <div className="sidebar-section">
-            <h3 className="section-title">Configuración de mi cuenta</h3>
-            <ul className="sidebar-menu">
-              <li className="menu-item">
-                <a href="#" className="menu-link">Cambiar correo electrónico</a>
+          <div className={styles.sidebarSection}>
+            <h3 className={styles.sectionTitle}>Configuración de mi cuenta</h3>
+            <ul className={styles.sidebarMenu}>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Cambiar correo electrónico</a>
               </li>
-              <li className="menu-item">
-                <a href="#" className="menu-link">Cambiar contraseña</a>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Cambiar contraseña</a>
               </li>
-              <li className="menu-item">
-                <a href="#" className="menu-link">Eliminar cuenta</a>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Eliminar cuenta</a>
               </li>
-              <li className="menu-item">
-                <a href="#" className="menu-link">Notificaciones</a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="sidebar-section">
-            <h3 className="section-title">Preferencias de la plataforma</h3>
-            <ul className="sidebar-menu">
-              <li className="menu-item">
-                <a href="#" className="menu-link">Idioma</a>
-              </li>
-              <li className="menu-item">
-                <a href="#" className="menu-link">Tema: Claro / Oscuro</a>
-              </li>
-              <li className="menu-item">
-                <a href="#" className="menu-link">Modalidad preferida</a>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Notificaciones</a>
               </li>
             </ul>
           </div>
 
-          <div className="sidebar-section">
-            <h3 className="section-title">Privacidad y seguridad</h3>
-            <ul className="sidebar-menu">
-              <li className="menu-item">
-                <a href="#" className="menu-link">Quién puede ver tu perfil</a>
+          <div className={styles.sidebarSection}>
+            <h3 className={styles.sectionTitle}>Preferencias de la plataforma</h3>
+            <ul className={styles.sidebarMenu}>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Idioma</a>
+              </li>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Tema: Claro / Oscuro</a>
+              </li>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Modalidad preferida</a>
               </li>
             </ul>
           </div>
 
-          <div className="sidebar-section">
-            <h3 className="section-title">Certificaciones y validaciones</h3>
-            <ul className="sidebar-menu">
-              <li className="menu-item">
-                <a href="#" className="menu-link">Subir o actualizar logros</a>
+          <div className={styles.sidebarSection}>
+            <h3 className={styles.sectionTitle}>Privacidad y seguridad</h3>
+            <ul className={styles.sidebarMenu}>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Quién puede ver tu perfil</a>
               </li>
-              <li className="menu-item">
-                <a href="#" className="menu-link">Ver estado de verificación de habilidades</a>
+            </ul>
+          </div>
+
+          <div className={styles.sidebarSection}>
+            <h3 className={styles.sectionTitle}>Certificaciones y validaciones</h3>
+            <ul className={styles.sidebarMenu}>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Subir o actualizar logros</a>
+              </li>
+              <li className={styles.menuItem}>
+                <a href="#" className={styles.menuLink}>Ver estado de verificación de habilidades</a>
               </li>
             </ul>
           </div>
         </aside>
 
         {/* Main Content */}
-        <main className="profile-main">
-          <div className="main-header">
-            <h1 className="page-title">Editar perfil</h1>
-            <button className="save-button" onClick={handleSaveChanges}>
+        <main className={styles.profileMain}>
+          <div className={styles.mainHeader}>
+            <h1 className={styles.pageTitle}>Editar perfil</h1>
+            <button className={styles.saveButton} onClick={handleSaveChanges}>
               Guardar Cambios
             </button>
           </div>
 
-          <div className="profile-card">
+          <div className={styles.profileCard}>
             {/* Profile Header */}
-            <div className="profile-header-section">
-            <div className="logo-gato">
+            <div className={styles.profileHeaderSection}>
+              <div className={styles.logoGato}>
                 <Image 
-                    src="/img/cat_profile.jpg"
-                    alt="Logo Swapk"
-                    width={90}
-                    height={90}
-                    className="logo-gato"
+                  src="/img/cat_profile.jpg"
+                  alt="Logo Swapk"
+                  width={90}
+                  height={90}
+                  className={styles.logoGato}
                 />
-            </div>
-              <div className="profile-info">
-                <h2 className="profile-username">{userData.username}</h2>
-                <p className="profile-fullname">{userData.fullName}</p>
               </div>
-              <button className="change-name-button" onClick={handleChangeName}>
+              <div className={styles.profileInfo}>
+                <h2 className={styles.profileUsername}>{userData.username}</h2>
+                <p className={styles.profileFullname}>{userData.fullName}</p>
+              </div>
+              <button className={styles.changeNameButton} onClick={handleChangeName}>
                 Cambiar nombre
               </button>
             </div>
 
             {/* Description Section */}
-            <div className="description-section">
-              <label className="form-label">Descripción</label>
+            <div className={styles.descriptionSection}>
+              <label className={styles.formLabel}>Descripción</label>
               <textarea
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Escribe una descripción sobre ti..."
-                className="description-textarea"
+                className={styles.descriptionTextarea}
                 maxLength={maxDescriptionLength}
               />
-              <div className="character-counter">
+              <div className={styles.characterCounter}>
                 {description.length}/{maxDescriptionLength}
               </div>
             </div>
 
             {/* Personal Data Section */}
-            <div className="personal-data-section">
-              <h3 className="section-header">Datos personales</h3>
-              <div className="data-items">
-                <div className="data-item">
-                  <div className="data-item-left">
-                    <Mail className="data-icon" />
-                    <div className="data-content">
-                      <span className="data-label">Correo electrónico</span>
-                      <span className="data-value">{userData.email}</span>
+            <div className={styles.personalDataSection}>
+              <h3 className={styles.sectionHeader}>Datos personales</h3>
+              <div className={styles.dataItems}>
+                <div className={styles.dataItem}>
+                  <div className={styles.dataItemLeft}>
+                    <Mail className={styles.dataIcon} />
+                    <div className={styles.dataContent}>
+                      <span className={styles.dataLabel}>Correo electrónico</span>
+                      <span className={styles.dataValue}>{userData.email}</span>
                     </div>
                   </div>
-                  <button className="edit-button" onClick={handleEditEmail}>
-                    <ChevronRight className="edit-icon" />
+                  <button className={styles.editButton} onClick={handleEditEmail}>
+                    <ChevronRight className={styles.editIcon} />
                   </button>
                 </div>
 
-                <div className="data-item">
-                  <div className="data-item-left">
-                    <Phone className="data-icon" />
-                    <div className="data-content">
-                      <span className="data-label">Número de teléfono</span>
-                      <span className="data-value">{userData.phone}</span>
+                <div className={styles.dataItem}>
+                  <div className={styles.dataItemLeft}>
+                    <Phone className={styles.dataIcon} />
+                    <div className={styles.dataContent}>
+                      <span className={styles.dataLabel}>Número de teléfono</span>
+                      <span className={styles.dataValue}>{userData.phone}</span>
                     </div>
                   </div>
-                  <button className="edit-button" onClick={handleEditPhone}>
-                    <ChevronRight className="edit-icon" />
+                  <button className={styles.editButton} onClick={handleEditPhone}>
+                    <ChevronRight className={styles.editIcon} />
                   </button>
                 </div>
 
-                <div className="data-item">
-                  <div className="data-item-left">
-                    <MapPin className="data-icon" />
-                    <div className="data-content">
-                      <span className="data-label">Ubicación</span>
-                      <span className="data-value">{userData.location}</span>
-                      <span className="data-extra" onClick={handleViewMore}>
+                <div className={styles.dataItem}>
+                  <div className={styles.dataItemLeft}>
+                    <MapPin className={styles.dataIcon} />
+                    <div className={styles.dataContent}>
+                      <span className={styles.dataLabel}>Ubicación</span>
+                      <span className={styles.dataValue}>{userData.location}</span>
+                      <span className={styles.dataExtra} onClick={handleViewMore}>
                         Ver más...
                       </span>
                     </div>
                   </div>
-                  <button className="edit-button" onClick={handleEditLocation}>
-                    <ChevronRight className="edit-icon" />
+                  <button className={styles.editButton} onClick={handleEditLocation}>
+                    <ChevronRight className={styles.editIcon} />
                   </button>
                 </div>
               </div>

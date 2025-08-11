@@ -1,5 +1,6 @@
 from db import Base
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text, Boolean, Enum
+from sqlalchemy import Column, Integer, String, Enum, DateTime
+from sqlalchemy.sql import func
 import enum
 
 class RolUsuario(str, enum.Enum):
@@ -13,6 +14,6 @@ class Usuario(Base):
     id = Column(Integer, primary_key=True)
     nombre = Column(String(255))
     correo = Column(String(255))
-    contrasena_hash = Column(String(255))
-    rol = Column(Enum(RolUsuario))
+    contrasena_hash = Column(String(255))  # sin ñ ni acento
+    rol = Column(Enum(RolUsuario), default=RolUsuario.Usuario)
     fecha_creacion = Column(DateTime)
