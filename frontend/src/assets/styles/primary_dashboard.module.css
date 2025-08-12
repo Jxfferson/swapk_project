@@ -8,10 +8,9 @@
 /* Main Container */
 
 .main-container {
-  max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 250px 1fr 300px;
+  grid-template-columns: 250px 1fr 100%;
   gap: 20px;
   padding: 20px;
   background-color: #141414;
@@ -128,6 +127,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 800px;
 }
 
 .post-card {
@@ -281,6 +281,7 @@
   position: sticky;
   top: 80px;
   height: fit-content;
+  width: 750px;
 }
 
 .widget {

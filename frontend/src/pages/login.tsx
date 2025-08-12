@@ -3,11 +3,6 @@ import { Settings, Apple, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import styles from "../assets/styles/login.module.css";
 
-interface LoginFormData {
-  emailOrUsername: string;
-  password: string;
-  showPassword: boolean;
-}
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -15,6 +10,17 @@ const Login: React.FC = () => {
     password: "",
     showPassword: false
   });
+
+  interface LoginFormData {
+  emailOrUsername: string;
+  password: string;
+  showPassword: boolean;
+}
+
+const URL_Backend = "http://localhost:8000"
+
+
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,29 +37,32 @@ const Login: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("http://127.0.0.1:8000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        emailOrUsername: formData.emailOrUsername,
-        password: formData.password
-      }),
-    })
-    
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.detail || "Error en login");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    try {
+      const res = await fetch(`${URL_Backend}/login`, { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({
+          emailOrUsername : formData.emailOrUsername,
+          password : formData.password,
+        })
+      })
 
-    router.push("/dashboard"); // redirección
-  } catch (err) {
-    alert(err instanceof Error ? err.message : "Ocurrió un error desconocido");
+      const data = await res.json()
+      if (res.ok) {
+        alert('Usuario registrado con éxito')
+      } else {
+        console.error('Error al registrar:', data)
+        alert(data.detail || 'Error desconocido')
+      }
+    } catch (error) {
+      console.error(error)
+      alert('Error al iniciar sesión')
+    }
   }
-};
 
 
   const handleSocialLogin = (provider: string) => {
