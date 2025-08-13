@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Settings, Apple } from 'lucide-react'
 import Image from "next/image";
 import styles from "../assets/styles/registerPage.module.css";
+import { useRouter } from "next/router";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,9 @@ export default function RegisterPage() {
     password: "",
     acceptOffers: false
   })
+
+  //Ruta para redirecciones
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
@@ -37,6 +41,7 @@ export default function RegisterPage() {
       const data = await res.json()
       if (res.ok) {
         alert('Usuario registrado con éxito')
+        router.push("/primary_dashboard");
         console.log(data)
       } else {
         console.error('Error al registrar:', data)

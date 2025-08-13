@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Settings, Apple, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import styles from "../assets/styles/login.module.css";
-
+import { useRouter } from "next/router";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -10,17 +10,13 @@ const Login: React.FC = () => {
     password: "",
     showPassword: false
   });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  interface LoginFormData {
-  emailOrUsername: string;
-  password: string;
-  showPassword: boolean;
-}
+  const router = useRouter();
 
-const URL_Backend = "http://localhost:8000"
-
-
-
+  const URL_Backend = "http://localhost:8000"
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,33 +34,38 @@ const URL_Backend = "http://localhost:8000"
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const res = await fetch(`${URL_Backend}/login`, { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' 
+      const res = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          emailOrUsername : formData.emailOrUsername,
-          password : formData.password,
-        })
-      })
+          email,
+          password,
+        }),
+      });
 
-      const data = await res.json()
       if (res.ok) {
-        alert('Usuario registrado con éxito')
+        const data = await res.json();
+        console.log("Login exitoso:", data);
+
+        // Aquí puedes guardar el token si el backend lo devuelve
+        // localStorage.setItem("token", data.token);
+
+        router.push("/dashboard"); // Cambia "/dashboard" por la ruta que quieras
       } else {
-        console.error('Error al registrar:', data)
-        alert(data.detail || 'Error desconocido')
+        const errorData = await res.json();
+        setError(errorData.detail || "Error al iniciar sesión");
       }
-    } catch (error) {
-      console.error(error)
-      alert('Error al iniciar sesión')
+    } catch (err) {
+      console.error(err);
+      setError("Error de conexión con el servidor");
     }
-  }
-
-
+  };
+  
   const handleSocialLogin = (provider: string) => {
     console.log(`Login with ${provider}`);
   };
@@ -76,6 +77,11 @@ const URL_Backend = "http://localhost:8000"
   const handleRegister = () => {
     console.log('Register clicked');
   };
+  interface LoginFormData {
+  emailOrUsername: string;
+  password: string;
+  showPassword: boolean;
+}
 
   return (
     <div className={styles['login-page']}>
@@ -117,6 +123,8 @@ const URL_Backend = "http://localhost:8000"
             </div>
 
             <form onSubmit={handleSubmit} className={styles['login-form']}>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+              
               <div className={styles['form-group']}>
                 <input
                   type="text"

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 from backend.schemas.habilidad_schema import HabilidadCreateDTO
-from sqlalchemy.orm import session
-from db.sessions import Sessionlocal
+from backend.db.sessions import SessionLocal
 from backend.models.habilidad import Habilidad
 
 #ApiRouter permite dividir las rutas en archivos
@@ -16,7 +16,7 @@ router = APIRouter(prefix='/habilidades')
 #Obtener el objeto session para Create
 
 def get_session():
-    db = Sessionlocal() 
+    db = SessionLocal() 
     try: 
         yield db
     finally:
@@ -37,7 +37,7 @@ def listar_habilidades_por_id(id: int):
 @router.post('/{id}')
 def crear_habilidad(
     nueva_habilidad: HabilidadCreateDTO, 
-    db:session = Depends(get_session)
+    db:Session = Depends(get_session)
     ):
     
    #Crear la habilidad 

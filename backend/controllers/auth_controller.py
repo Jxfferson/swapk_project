@@ -5,7 +5,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from jose import JWSError, jwt
-from db.database import get_db
+from backend.db.database import get_db
 from backend.models.usuarios import Usuario
 from backend.schemas.auth_schema import RegisterRequest, LoginRequest
 from backend.services.auth_service import hash_password, verify_password, user_exists
@@ -51,7 +51,7 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
     ).first()
 
     if not user or not verify_password(data.password, user.contrasena_hash):
-        raise HTTPException(status_code=401, detail="Credenciales incorrectas")
+        raise HTTPException(status_code=400, detail="Credenciales incorrectas")
 
     # Crear token JWT
     token_data = {

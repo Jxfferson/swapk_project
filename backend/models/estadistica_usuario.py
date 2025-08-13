@@ -1,4 +1,4 @@
-from db import Base
+from backend.db import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text, Boolean, Float
 
 class EstadisticaUsuario(Base):

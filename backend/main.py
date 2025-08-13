@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from db.database import Base, engine
+from backend.db.database import Base, engine
 from backend.controllers.habilidad_controller import router as habilidad_router
 from backend.controllers.auth_controller import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
