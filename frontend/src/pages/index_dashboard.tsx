@@ -5,7 +5,6 @@ import { Input } from "../components/ui/input"
 import { Badge } from "../components/ui/badge"
 import { Card, CardContent } from "../components/ui/card"
 import {
-  Settings,
   Search,
   MessageSquare,
   Bell,
@@ -22,83 +21,114 @@ import {
   Flag,
   Sun,
   Moon,
+  Menu,
+  X,
 } from "lucide-react"
 
 export default function ForumLayout() {
   const [activeTab, setActiveTab] = useState("Intercambios")
   const [isDark, setIsDark] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-  const toggleTheme = () => {
-    setIsDark(!isDark)
-  }
+  const toggleTheme = () => setIsDark(!isDark)
 
   return (
-    <div className={`min-h-screen flex transition-colors duration-300 max-w-7x-1 ${isDark ? "bg-[#141414] text-[#F5F5F5]" : "bg-gray-50 text-gray-900"}`}>
-      {/* Left Sidebar Navigation */}
+    <div
+      className={`min-h-screen flex transition-colors duration-300 ${
+        isDark ? "bg-[#141414] text-[#F5F5F5]" : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      {/* 🔹 Botón Hamburguesa (solo en pantallas pequeñas) */}
+      <div className="absolute top-4 left-4 md:hidden z-50">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="text-gray-600 dark:text-gray-300"
+        >
+          {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </Button>
+      </div>
+
+      {/* 🔹 Sidebar Izquierdo */}
       <div
-        className={`w-66 flex flex-col border-r transition-colors duration-300 ${isDark ? "bg-[#1E1E1E] border-[#2E2E2E]" : "bg-white border-gray-200"}`}
+        className={`
+          fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          md:translate-x-0 md:static md:flex
+          flex-col border-r 
+          ${isDark ? "bg-[#1E1E1E] border-[#2E2E2E]" : "bg-white border-gray-200"}
+        `}
       >
-        {/* Top Navigation Items */}
-        <div className={`p-3 border-b transition-colors duration-300 ${isDark ? "border-[#2E2E2E]" : "border-gray-200"}`}>
+        <div
+          className={`p-3 border-b transition-colors duration-300 ${
+            isDark ? "border-[#2E2E2E]" : "border-gray-200"
+          }`}
+        >
           <div className="flex items-center gap-2 mb-3">
-            <img 
-            src="/img/logoswapk.png" 
-            alt="Swapk Logo"
-            className="w-7 h-auto" // Ajusta el ancho (w-32 = 128px)
-            />
-            <span className={`text-sm transition-colors duration-300 ${isDark ? "text-[#F5F5F5]" : "text-gray-700"}`}>SWAPK</span>
+            <img src="/img/logoswapk.png" alt="Swapk Logo" className="w-7 h-auto" />
+            <span
+              className={`text-sm transition-colors duration-300 ${
+                isDark ? "text-[#F5F5F5]" : "text-gray-700"
+              }`}
+            >
+              SWAPK
+            </span>
             <Button
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
-              className={`ml-auto h-6 w-6 p-0 transition-colors duration-300 ${isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E] hover:text-[#F5F5F5]" : "text-gray-600 hover:text-gray-900"}`}
+              className={`ml-auto h-6 w-6 p-0 transition-colors duration-300 ${
+                isDark
+                  ? "text-[#A0A0A0] hover:bg-[#2E2E2E] hover:text-[#F5F5F5]"
+                  : "text-gray-600 hover:text-gray-900"
+              }`}
             >
-              {isDark ? <Sun className="w-4 h-4 cursor-pointer " /> : <Moon className="cursor-pointer w-4 h-4" />}
+              {isDark ? (
+                <Sun className="w-4 h-4 cursor-pointer " />
+              ) : (
+                <Moon className="cursor-pointer w-4 h-4" />
+              )}
             </Button>
           </div>
 
-          {/* Search Bar */}
+          {/* 🔹 Barra de búsqueda */}
           <div className="relative mb-3">
             <Search
-              className={`cursor-pointer absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${isDark ? "text-[#A0A0A0]" : "text-gray-500"}`}
+              className={`cursor-pointer absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${
+                isDark ? "text-[#A0A0A0]" : "text-gray-500"
+              }`}
             />
             <Input
               placeholder="Buscar en Swapk"
               className={`pl-10 w-full h-8 transition-colors duration-300 
                     border-none shadow-none focus-visible:ring-0 ${
-                    isDark 
-                        ? "bg-[#1E1E1E] text-[#F5F5F5] placeholder-[#A0A0A0]" 
+                      isDark
+                        ? "bg-[#1E1E1E] text-[#F5F5F5] placeholder-[#A0A0A0]"
                         : "bg-gray-100 text-gray-900 placeholder-gray-500"
                     }`} 
             />
           </div>
 
-          {/* User Actions */}
+          {/* 🔹 Acciones de usuario */}
           <div className="flex gap-1 mb-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`cursor-pointer flex-1 h-8 transition-colors duration-300 ${isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E] hover:text-[#F5F5F5]" : "text-gray-600 hover:text-gray-900"}`}
-            >
-              <MessageSquare className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`cursor-pointer flex-1 h-8 transition-colors duration-300 ${isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E] hover:text-[#F5F5F5]" : "text-gray-600 hover:text-gray-900"}`}
-            >
-              <Bell className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`cursor-pointer flex-1 h-8 transition-colors duration-300 ${isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E] hover:text-[#F5F5F5]" : "text-gray-600 hover:text-gray-900"}`}
-            >
-              <User className="w-4 h-4" />
-            </Button>
+            {[MessageSquare, Bell, User].map((Icon, idx) => (
+              <Button
+                key={idx}
+                variant="ghost"
+                size="sm"
+                className={`cursor-pointer flex-1 h-8 transition-colors duration-300 ${
+                  isDark
+                    ? "text-[#A0A0A0] hover:bg-[#2E2E2E] hover:text-[#F5F5F5]"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+              </Button>
+            ))}
           </div>
 
-          {/* Main Navigation */}
+          {/* 🔹 Navegación */}
           <nav className="space-y-3">
             <Button
               variant="ghost"
@@ -111,7 +141,11 @@ export default function ForumLayout() {
             <Button
               variant="ghost"
               size="sm"
-              className={`cursor-pointer w-full justify-start h-8 transition-colors duration-300 ${isDark ? "text-[#F5F5F5] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}
+              className={`cursor-pointer w-full justify-start h-8 transition-colors duration-300 ${
+                isDark
+                  ? "text-[#F5F5F5] hover:bg-[#2E2E2E]"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
             >
               <TrendingUp className="w-4 h-4 mr-2" />
               Popular
@@ -119,7 +153,11 @@ export default function ForumLayout() {
             <Button
               variant="ghost"
               size="sm"
-              className={`cursor-pointer w-full justify-start h-8 transition-colors duration-300 ${isDark ? "text-[#F5F5F5] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}
+              className={`cursor-pointer w-full justify-start h-8 transition-colors duration-300 ${
+                isDark
+                  ? "text-[#F5F5F5] hover:bg-[#2E2E2E]"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
             >
               <RefreshCw className="w-4 h-4 mr-2" />
               Intercambios
@@ -127,7 +165,11 @@ export default function ForumLayout() {
             <Button
               variant="ghost"
               size="sm"
-              className={`cursor-pointer w-full justify-start h-8 transition-colors duration-300 ${isDark ? "text-[#F5F5F5] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}
+              className={`cursor-pointer w-full justify-start h-8 transition-colors duration-300 ${
+                isDark
+                  ? "text-[#F5F5F5] hover:bg-[#2E2E2E]"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
             >
               <BookOpen className="w-4 h-4 mr-2" />
               Mis Cursos
