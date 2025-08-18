@@ -1,32 +1,30 @@
 from fastapi import FastAPI
-from db.database import Base, engine
-from backend.controllers.habilidad_controller import router as habilidad_router
-from backend.controllers.auth_controller import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
-
+from backend.db.database import Base, engine
+from backend.controllers.auth_controller import router as auth_router
+from backend.controllers.habilidad_controller import router as habilidad_router
+from backend.controllers.forgot_password_controller import router as forgot_password_router
+from backend.controllers import google_auth_controller 
 app = FastAPI()
 
-
+# Configuración CORS
 origins = [
-    "http://localhost:3000",  # Aquí la URL de tu frontend
+    "http://localhost:3000",  # tu frontend
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Permitir frontend
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],    # Permitir todos los métodos (POST, GET, etc)
-    allow_headers=["*"],    # Permitir todos los headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-# Crear tablas (solo para desarrollo)
+# Base de datos
 Base.metadata.create_all(bind=engine)
 
-@app.get("/")
-def read_root():
-    return {"message": "API funcionando"}
-
-# Incluir routers
+# Rutas
+app.include_router(auth_router, prefix="/auth")
 app.include_router(habilidad_router)
-app.include_router(auth_router)
-
+app.include_router(forgot_password_router)
+app.include_router(google_auth_controller.router, prefix="/auth/google", tags=["google-auth"])

@@ -18,28 +18,39 @@ Aplicación web moderna que permite a los usuarios intercambiar habilidades y co
 ## 📁 Estructura del Proyecto
 
 ```
-swapk/
-├── frontend/                 # React + Tailwind + TS
+swapk_proyecto/
+│
+├── backend/                  # NestJS + Python
+│   ├── Collection/
+│   ├── controllers/
+│   ├── db/
+│   ├── models/
+│   ├── schemas/
+│   ├── services/
+│   ├── .env
+│   └── main.py
+│   ├── alembic.ini
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── public/                 # React + Tailwind + TS
+│   │   ├── img/
+│   │   │   ├── login/
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
 │   │   ├── assets/
-│   │   ├── hooks/
-│   │   └── App.tsx
+│   │   │   ├── styles/
+│   │   ├── pages/
+│   │   │   ├── App.tsx
+│   │   ├── services/
+│   ├── global.css
+│   ├── layout.tsx
+│   ├── loading.tsx
 │   ├── tailwind.config.js
 │   ├── postcss.config.js
 │   └── package.json
+│   └── package-lock.json
 │
-├── backend/                  # NestJS + MongoDB
-│   ├── src/
-│   │   ├── modules/
-│   │   ├── controllers/
-│   │   ├── services/
-│   │   ├── schemas/
-│   │   └── main.ts
-│   ├── .env
-│   └── package.json
-│
+├── .gitignore
 └── README.md
 ```
 
