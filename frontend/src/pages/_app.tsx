@@ -1,10 +1,11 @@
-//Importaciones de estilos
+import type { AppProps } from 'next/app'
+import "@/globals.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import '../globals.css'; 
-import type { AppProps } from 'next/app';
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+export default function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string}>
+      <Component {...pageProps} />
+    </GoogleOAuthProvider>
+  )
 }
-
-export default MyApp;
