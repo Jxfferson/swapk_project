@@ -36,17 +36,8 @@ class ResetPasswordRequest(BaseModel):
             return False
         return True
 
-# Opcional: Modelo para respuesta de usuario
-class UserResponse(BaseModel):
-    id: int
-    nombre: str
-    email: EmailStr
-    is_active: bool
 
-    class Config:
-        orm_mode = True
-
-# Opcional: Modelo para token de autenticación
+# Modelo para token de autenticación
 class Token(BaseModel):
     access_token: str
     token_type: str
