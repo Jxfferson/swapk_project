@@ -72,15 +72,15 @@ export default function SwapkLanding() {
   const router = useRouter()
 
   const handleLoginClick = (): void => {
-    router.push("/login")
+    router.push("/auth/login")
   }
 
   const handleSignupClick = (): void => {
-    router.push("/register")
+    router.push("/auth/register")
   }
 
   const handleJoinClick = (): void => {
-    router.push("/register")
+    router.push("auth/register")
   }
 
   const handleHowItWorksClick = (): void => {
@@ -128,16 +128,16 @@ export default function SwapkLanding() {
 
           {/* Navigation Links */}
           <div className="flex flex-col gap-2 mb-10">
-            <button className="text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
+            <button className="cursor-pointer text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
               INICIO
             </button>
-            <button className="text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
+            <button className="cursor-pointer text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
               TRUEQUES
             </button>
-            <button className="text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
+            <button className="cursor-pointer text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
               COMUNIDAD
             </button>
-            <button className="text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
+            <button className="cursor-pointer text-white font-medium text-left py-3 px-4 rounded-lg hover:bg-blue-800/20 hover:text-blue-600 transition-all">
               FAQ's
             </button>
           </div>
@@ -154,7 +154,7 @@ export default function SwapkLanding() {
               />
               <button
                 type="submit"
-                className="bg-blue-600 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-white font-medium"
+                className="cursor-pointer bg-blue-600 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-white font-medium"
               >
                 <Search className="w-4 h-4" />
                 Buscar
@@ -165,13 +165,13 @@ export default function SwapkLanding() {
           {/* Auth Buttons */}
           <div className="flex flex-col gap-3 mt-auto">
             <button
-              className="bg-transparent text-white border border-gray-600 px-5 py-3 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all"
+              className="cursor-pointer bg-transparent text-white border border-gray-600 px-5 py-3 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all"
               onClick={handleLoginClick}
             >
               Iniciar Sesión
             </button>
             <button
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-3 rounded-lg font-semibold hover:from-blue-500 hover:to-blue-600 hover:shadow-lg hover:shadow-blue-600/30 transition-all"
+              className="cursor-pointer bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-3 rounded-lg font-semibold hover:from-blue-500 hover:to-blue-600 hover:shadow-lg hover:shadow-blue-600/30 transition-all"
               onClick={handleSignupClick}
             >
               Crea cuenta gratis
@@ -185,7 +185,7 @@ export default function SwapkLanding() {
       )}
 
       <div className="lg:ml-80">
-        {/* SECCIÓN 1: Minds Section */}
+        {/* SECCIÓN 1*/}
         <section className="min-h-screen bg-gradient-to-br bg-[#141414] flex items-center">
           <div className="max-w-4xl mx-auto text-center px-5 w-full">
             <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-5 leading-tight">
@@ -203,13 +203,13 @@ export default function SwapkLanding() {
 
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <button
-                className="bg-transparent text-gray-400 border border-gray-600 px-6 py-3 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all text-sm"
+                className="cursor-pointer bg-transparent text-gray-400 border border-gray-600 px-6 py-3 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all text-sm"
                 onClick={handleHowItWorksClick}
               >
                 ¿CÓMO FUNCIONA?
               </button>
               <button
-                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-500 hover:to-blue-600 hover:shadow-lg hover:shadow-blue-600/30 transition-all"
+                className="cursor-pointer bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-500 hover:to-blue-600 hover:shadow-lg hover:shadow-blue-600/30 transition-all"
                 onClick={handleFindExchangeClick}
               >
                 ENCUENTRA TU INTERCAMBIO
@@ -218,7 +218,7 @@ export default function SwapkLanding() {
           </div>
         </section>
 
-        {/* SECCIÓN 2: Hero Section */}
+        {/* SECCIÓN 2*/}
         <section className="min-h-screen bg-gradient-to-br bg-[#141414] pt-10 pb-20 px-5" id="inicio">
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="text-center lg:text-left">
@@ -231,10 +231,10 @@ export default function SwapkLanding() {
                 Aquí lo hacemos posible
               </p>
               <button
-                className="bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-gray-600 hover:to-gray-700 hover:shadow-xl hover:shadow-blue-600/20 transition-all mb-16"
+                className="cursor-pointer bg-gradient-to-r from-gray-700 to-gray-800 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-gray-600 hover:to-gray-700 hover:shadow-xl hover:shadow-blue-600/20 transition-all mb-16"
                 onClick={handleJoinClick}
               >
-                ÚNETE A <span className="text-gray-400">SWAPK</span> GRATIS
+                ÚNETE A <span className="cursor-pointer text-gray-400">SWAPK</span> GRATIS
               </button>
             </div>
 
@@ -298,7 +298,7 @@ export default function SwapkLanding() {
                     className="bg-transparent text-gray-400 border border-gray-600 px-6 py-3 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all text-sm"
                     onClick={handleLearnMoreClick}
                   >
-                    CONOCE CÓMO LO HACEMOS
+                    DESCUBRE NUESTROS OBJETIVOS
                   </button>
                 </div>
 
@@ -373,7 +373,7 @@ export default function SwapkLanding() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-white text-gray-900 py-5 text-center">
+        <footer className="bg-white text-gray-900 py-2 text-center ">
           <div>
             <p className="text-sm font-medium">© 2025 Swapk. Todos los derechos reservados.</p>
           </div>

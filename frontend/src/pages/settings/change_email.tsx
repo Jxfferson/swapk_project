@@ -7,34 +7,67 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import SettingsLayout from "../../components/settings_layout"
 
 export default function ChangeEmail() {
-  const [currentEmail, setCurrentEmail] = useState("eduardo@example.com")
+  const [currentEmail, setCurrentEmail] = useState("")
   const [newEmail, setNewEmail] = useState("")
   const [confirmEmail, setConfirmEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
 
-    useEffect(() => {
+  // 🔁 Cargar correo del usuario desde localStorage o API
+  useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token")
+        const savedUserStr = localStorage.getItem("user")
+        if (!savedUserStr) {
+          setMessage("No has iniciado sesión")
+          return
+        }
+
+        const savedUser = JSON.parse(savedUserStr)
+        const token = savedUser.token
+        const emailFromStorage = savedUser.correo || savedUser.user?.correo
+
+        // ✅ Primero intenta usar el correo de localStorage
+        if (emailFromStorage) {
+          setCurrentEmail(emailFromStorage)
+        }
+
+        // ✅ Luego refresca desde API (opcional)
         const res = await fetch("http://localhost:8000/users/me", {
           headers: {
             "Authorization": `Bearer ${token}`
           }
         })
-        const data = await res.json()
-        setCurrentEmail(data.email)
+
+        if (res.ok) {
+          const data = await res.json()
+          const apiEmail = data.correo // ✅ Usa 'correo', no 'email'
+          setCurrentEmail(apiEmail)
+
+          // ✅ Actualiza localStorage si hay cambios
+          if (apiEmail !== savedUser.correo) {
+            const updatedUser = { ...savedUser, correo: apiEmail }
+            localStorage.setItem("user", JSON.stringify(updatedUser))
+          }
+        }
       } catch (err) {
         console.error("Error al obtener usuario:", err)
+        setMessage("No se pudo cargar tu información")
       }
     }
 
     fetchUser()
   }, [])
 
+  // ✅ Actualizar correo
   const handleUpdate = async () => {
     if (newEmail !== confirmEmail) {
       setMessage("Los correos no coinciden")
+      return
+    }
+
+    if (!newEmail) {
+      setMessage("El correo no puede estar vacío")
       return
     }
 
@@ -42,23 +75,45 @@ export default function ChangeEmail() {
       setLoading(true)
       setMessage("")
 
-      const token = localStorage.getItem("token") // 👈 Asegúrate de guardar el JWT en login
-      const res = await fetch("http://localhost:8000/users/change-email", {
+      const savedUserStr = localStorage.getItem("user")
+      if (!savedUserStr) {
+        setMessage("No has iniciado sesión")
+        return
+      }
+
+      const savedUser = JSON.parse(savedUserStr)
+      const token = savedUser.token
+      const userId = savedUser.id
+
+      const res = await fetch(`http://localhost:8000/users/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({ new_email: newEmail }) // 👈 debe coincidir con lo que espera tu backend
+        body: JSON.stringify({ 
+          correo: newEmail  // ✅ Asegúrate de que tu backend espere 'correo'
+        })
       })
 
       const data = await res.json()
 
-      if (!res.ok) throw new Error(data.detail || "Error al actualizar correo")
+      if (!res.ok) {
+        throw new Error(data.detail || "Error al actualizar correo")
+      }
 
+      // ✅ Actualiza estado y localStorage
       setCurrentEmail(newEmail)
       setNewEmail("")
       setConfirmEmail("")
+
+      const updatedUser = {
+        ...savedUser,
+        correo: newEmail,
+        user: { ...savedUser.user, correo: newEmail }
+      }
+      localStorage.setItem("user", JSON.stringify(updatedUser))
+
       setMessage("Correo actualizado correctamente ✅")
 
     } catch (err: any) {
@@ -80,7 +135,11 @@ export default function ChangeEmail() {
           <CardContent className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Correo actual</label>
-              <Input value={currentEmail} disabled className="bg-gray-600 border-gray-500 text-gray-300" />
+              <Input 
+                value={currentEmail} 
+                disabled 
+                className="bg-gray-600 border-gray-500 text-gray-300" 
+              />
             </div>
 
             <div>

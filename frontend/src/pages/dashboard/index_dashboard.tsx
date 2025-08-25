@@ -1,5 +1,7 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/router" 
+import toast, { Toaster } from 'react-hot-toast'
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 import { Badge } from "../../components/ui/badge"
@@ -26,11 +28,130 @@ import {
 } from "lucide-react"
 
 export default function ForumLayout() {
+  const router = useRouter() 
+  const [formData, setFormData] = useState({
+    nombre: "",
+    email: "",
+    password: "",
+    acceptOffers: false,
+  })
   const [activeTab, setActiveTab] = useState("Intercambios")
   const [isDark, setIsDark] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [usuario, setUsuario] = useState<any>(null)
+  const [perfil, setPerfil] = useState<any>(null)
+
+  // Estado para usuario autenticado
+  const [user, setUser] = useState<any>(null)
 
   const toggleTheme = () => setIsDark(!isDark)
+
+
+    // Al cargar el componente, traer datos del usuario
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      // 1️⃣ Registrar
+      const res = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          password: formData.password,
+        }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        alert(data.detail || "Error en el registro")
+        return
+      }
+
+      console.log("Usuario creado:", data)
+
+      // 2️⃣ Login automático
+      const loginRes = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      })
+
+      const loginData = await loginRes.json()
+      if (!loginRes.ok) {
+        alert(loginData.detail || "Error en el login automático")
+        return
+      }
+
+      console.log("Login exitoso:", loginData)
+
+      // 3️⃣ Guardar en localStorage el token válido
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          token: loginData.token,
+          usuario: loginData.user,
+          perfil: loginData.perfil
+        })
+      )
+
+      alert("Usuario registrado y logueado con éxito ✅")
+      router.push("../dashboard/index_dashboard")
+    } catch (error) {
+      console.error(error)
+      alert("Error en el registro")
+    }
+  }
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user")
+    if (savedUser) {
+      const parsed = JSON.parse(savedUser)
+      setUser(parsed.usuario)
+      setPerfil(parsed.perfil)
+
+      // Aquí mostramos el toast
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-md w-full bg-gray-900 shadow-lg rounded-xl pointer-events-auto flex ring-1 ring-gray-700 transition-all duration-500 border-l-4 border-blue-600`}
+        >
+          <div className="flex-1 w-0 p-5">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 pt-0.5 text-2xl text-blue-400">👋</div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-white">
+                  ¡Bienvenido de nuevo, {parsed?.usuario?.nombre || "Usuario"}!
+                </p>
+                <p className="mt-1 text-sm text-gray-300">
+                  Nos encanta verte por aquí. Hoy es un nuevo día lleno de oportunidades para crear algo increíble. ¡Tú puedes con todo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="w-full border border-transparent rounded-none rounded-r-xl p-4 flex items-center justify-center text-sm font-medium text-gray-400 hover:text-white focus:outline-none"
+            >
+              <span className="sr-only">Cerrar</span>
+              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      ), {
+        duration: 6000,
+        position: 'top-right',
+      })
+  }
+}, [])
+
 
   return (
     <div
@@ -38,7 +159,33 @@ export default function ForumLayout() {
         isDark ? "bg-[#141414] text-[#F5F5F5]" : "bg-gray-50 text-gray-900"
       }`}
     >
-      {/* 🔹 Botón Hamburguesa (solo en pantallas pequeñas) */}
+      <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 5000,
+            className: '',
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+            success: {
+              duration: 4000,
+              iconTheme: {
+                primary: '#4CAF50',
+                secondary: 'white',
+              },
+            },
+            error: {
+              duration: 5000,
+              iconTheme: {
+                primary: '#EF5350',
+                secondary: 'white',
+              },
+            },
+          }}
+      />
+      {/* 🔹 Botón Hamburguesa */}
       <div className="absolute top-4 left-4 md:hidden z-50">
         <Button
           variant="ghost"
@@ -91,7 +238,7 @@ export default function ForumLayout() {
               )}
             </Button>
           </div>
-
+              
           {/* 🔹 Barra de búsqueda */}
           <div className="relative mb-3">
             <Search

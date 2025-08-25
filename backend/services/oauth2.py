@@ -2,14 +2,13 @@ from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
-from db.database import get_db
-from models import User
+from backend.db.database import get_db
+from backend.models.usuarios import Usuario  
+from backend.config import SECRET_KEY, ALGORITHM 
+
 
 # URL donde se obtiene el token
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
-
-SECRET_KEY = "aqui_va_tu_clave_super_secreta"  
-ALGORITHM = "HS256"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 def get_current_user(
     token: str = Depends(oauth2_scheme), 
@@ -21,16 +20,19 @@ def get_current_user(
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        # Decodificar el token
+        print("🔍 Token recibido:", token)
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id: int = payload.get("user_id")
+        print("✅ Payload decodificado:", payload)
+        user_id: str = payload.get("sub")
         if user_id is None:
+            print("❌ No se encontró 'sub' en el token")
             raise credentials_exception
-    except JWTError:
+    except JWTError as e:
+        print("❌ Error JWT:", str(e))
         raise credentials_exception
 
-    # Buscar usuario en la BD
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(Usuario).filter(Usuario.id == int(user_id)).first() 
     if user is None:
+        print("❌ Usuario no encontrado en DB:", user_id)
         raise credentials_exception
     return user

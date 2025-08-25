@@ -24,31 +24,55 @@ export default function RegisterPage() {
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const res = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: formData.nombre,
-          email: formData.email,
-          password: formData.password,
-        }),
-      })
+      const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      try {
+        const res = await fetch("http://localhost:8000/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nombre: formData.nombre,
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
 
-      const data = await res.json()
-      if (res.ok) {
-        alert("Usuario registrado con éxito")
-        router.push("/index_dashboard")
-      } else {
-        alert(data.detail || "Error desconocido")
+        const data = await res.json();
+
+        if (res.ok) {
+          // ✅ Guardar el token en el objeto del usuario en localStorage
+          const userData = {
+            token: data.token,           // ← ¡Importante! Incluye el token aquí
+            id: data.usuario?.id || data.user.id,
+            nombre: data.usuario?.nombre || data.user.nombre,
+            correo: data.usuario?.correo || data.user.correo,
+            perfil: data.perfil,
+          };
+
+          // ✅ Guardar todo en localStorage
+          localStorage.setItem("user", JSON.stringify(userData));
+
+          console.log("✅ Token guardado (registro):", userData.token);
+          console.log("🔍 Longitud del token (registro):", userData.token?.length);
+          console.log("📦 Usuario guardado (registro):", JSON.parse(localStorage.getItem("user")!));
+
+          // 🍪 Opcional: guardar token en cookie (puedes usarlo en el backend con HttpOnly más adelante)
+          document.cookie = `token=${data.token}; path=/; max-age=3600; secure; samesite=strict`;
+
+          // ✅ Confirmación en consola
+          console.log("Usuario en localStorage:", localStorage.getItem("user"));
+          console.log("Respuesta completa del backend:", data);
+
+          alert("Usuario registrado con éxito");
+          router.push("../dashboard/index_dashboard");
+        } else {
+          alert(data.detail || "Error desconocido");
+        }
+      } catch (error) {
+        console.error("Error en el registro:", error);
+        alert("Error en el registro. Revisa tu conexión.");
       }
-    } catch (error) {
-      console.error(error)
-      alert("Error en el registro")
-    }
-  }
+    };
 
   return (
     <div

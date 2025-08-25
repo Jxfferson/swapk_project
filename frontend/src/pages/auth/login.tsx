@@ -31,8 +31,8 @@ const Login: React.FC = () => {
     setFormData((prev) => ({ ...prev, showPassword: !prev.showPassword }))
   }
 
-  const handleForgotPassword = () => router.push("/forgotpassword")
-  const handleRegister = () => router.push("/register")
+  const handleForgotPassword = () => router.push("/auth/forgotpassword")
+  const handleRegister = () => router.push("/auth/register")
   const handleSocialLogin = (provider: string) => {
     alert(`Login con ${provider} en construcción 🚧`)
   }
@@ -51,10 +51,29 @@ const Login: React.FC = () => {
       })
 
       if (res.ok) {
-        const data = await res.json()
-        localStorage.setItem("user", JSON.stringify(data))
-        router.push("/index_dashboard")
-      } else {
+        const data = await res.json();
+
+        // ✅ Guardar el token EN EL OBJETO "user" en localStorage
+        const userData = {
+          token: data.token,           // ← ¡Importante! Incluye el token aquí
+          id: data.user.id,
+          nombre: data.user.nombre,
+          correo: data.user.correo,
+          perfil: data.perfil,
+        };
+
+        // ✅ Guardar todo en localStorage
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        console.log("✅ Token guardado:", userData.token);
+        console.log("🔍 Longitud del token:", userData.token?.length);
+        console.log("📦 Usuario guardado en localStorage:", JSON.parse(localStorage.getItem("user")!));
+
+        // 🍪 Opcional: también guardar en cookie (puedes usarlo en el backend)
+        document.cookie = `token=${data.token}; path=/; max-age=3600; secure; samesite=strict`;
+
+        router.push("../dashboard/index_dashboard");
+        } else {
         const errorData = await res.json()
         setError(errorData.detail || "Error al iniciar sesión")
       }
@@ -142,7 +161,7 @@ const Login: React.FC = () => {
                       const res = await axios.post("http://localhost:8000/auth/google/login", { token });
                       alert(`Bienvenido ${res.data.nombre} 🎉`);
                       localStorage.setItem("user", JSON.stringify(res.data));
-                      router.push("/index_dashboard");
+                      router.push("../dashboard/index_dashboard");
                     } catch (err: any) {
                       console.error(err.response || err);
                       alert(err.response?.data?.detail || "Error al iniciar sesión con Google ❌");
