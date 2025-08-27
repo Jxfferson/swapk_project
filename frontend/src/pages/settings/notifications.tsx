@@ -51,36 +51,11 @@ export default function Notifications() {
 
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-medium">Notificaciones SMS</h3>
-              <p className="text-sm text-gray-400">Mensajes de texto para alertas críticas</p>
-            </div>
-            <Switch checked={notifications.sms} onCheckedChange={() => handleToggle("sms")} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-medium">Marketing y promociones</h3>
-              <p className="text-sm text-gray-400">Ofertas especiales y noticias del producto</p>
-            </div>
-            <Switch checked={notifications.marketing} onCheckedChange={() => handleToggle("marketing")} />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div>
               <h3 className="font-medium">Alertas de seguridad</h3>
               <p className="text-sm text-gray-400">Notificaciones sobre actividad sospechosa</p>
             </div>
             <Switch checked={notifications.security} onCheckedChange={() => handleToggle("security")} />
           </div>
-
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-medium">Actualizaciones del producto</h3>
-              <p className="text-sm text-gray-400">Nuevas funciones y mejoras</p>
-            </div>
-            <Switch checked={notifications.updates} onCheckedChange={() => handleToggle("updates")} />
-          </div>
-
           <Button className="bg-blue-600 hover:bg-blue-700">Guardar preferencias</Button>
         </CardContent>
       </Card>

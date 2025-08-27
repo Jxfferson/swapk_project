@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/router"
 import {
@@ -17,12 +16,13 @@ import {
   Upload,
   CheckCircle,
   Bell,
+  LogOut,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface SettingsLayoutProps {
   children: React.ReactNode
-  title?: string // Made title optional
+  title?: string
 }
 
 export default function SettingsLayout({ children, title }: SettingsLayoutProps) {
@@ -59,9 +59,22 @@ export default function SettingsLayout({ children, title }: SettingsLayoutProps)
     },
     {
       category: "Opciones adicionales",
-      items: [{ id: "help_center", label: "Centro de ayuda / Soporte", icon: HelpCircle }],
+      items: [
+        { id: "help_center", label: "Centro de ayuda / Soporte", icon: HelpCircle },
+      ],
     },
   ]
+
+  // ✅ Función para cerrar sesión
+  const handleLogout = () => {
+    // ✅ Eliminar datos de sesión
+    localStorage.removeItem("user")
+    localStorage.removeItem("token") // si lo guardas aparte
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT" // eliminar cookie
+
+    // ✅ Redirigir al login
+    router.push("/auth/login")
+  }
 
   const handleNavigation = (itemId: string) => {
     setActiveSection(itemId)
@@ -72,8 +85,8 @@ export default function SettingsLayout({ children, title }: SettingsLayoutProps)
     <div className="min-h-screen bg-[#141414] text-white">
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-80 bg-[#121212] border-r border-gray-800 min-h-screen">
-          <div className="p-6">
+        <div className="w-80 bg-[#121212] border-r border-gray-800 min-h-screen flex flex-col">
+          <div className="p-6 flex-1">
             <div className="flex items-center gap-3 mb-8">
               <Button
                 variant="ghost"
@@ -98,8 +111,10 @@ export default function SettingsLayout({ children, title }: SettingsLayoutProps)
                         <li key={item.id}>
                           <button
                             onClick={() => handleNavigation(item.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                              isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                            className={`cursor-pointer w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
+                              isActive 
+                                ? "bg-blue-600 text-white" 
+                                : "text-gray-300 hover:bg-gray-800 hover:text-white"
                             }`}
                           >
                             <Icon className="w-4 h-4" />
@@ -112,6 +127,18 @@ export default function SettingsLayout({ children, title }: SettingsLayoutProps)
                 </div>
               ))}
             </nav>
+          </div>
+
+          {/* Cerrar sesión (siempre al final, fijo) */}
+          <div className="p-6 border-t border-gray-800">
+            <Button
+              variant="ghost"
+              className="w-full flex items-center gap-3 text-red-400 hover:bg-red-900/30 hover:text-red-300 justify-start px-3 py-2 rounded-lg transition-colors"
+              onClick={handleLogout}
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="cursor-pointer text-sm font-medium">Cerrar sesión</span>
+            </Button>
           </div>
         </div>
 

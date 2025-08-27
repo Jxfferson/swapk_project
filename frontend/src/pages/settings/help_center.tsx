@@ -24,18 +24,6 @@ export default function HelpCenter() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className={`${cardBg} border ${borderColor}`}>
-          <CardContent className="p-6 text-center">
-            <Book className="w-12 h-12 mx-auto mb-4 text-blue-500" />
-            <h3 className="font-semibold mb-2">Guías y tutoriales</h3>
-            <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"} mb-4`}>
-              Accede a nuestra base de conocimientos
-            </p>
-            <Button variant="outline" className="w-full bg-transparent">
-              Ver guías
-            </Button>
-          </CardContent>
-        </Card>
 
         <Card className={`${cardBg} border ${borderColor}`}>
           <CardContent className="p-6 text-center">
@@ -50,18 +38,6 @@ export default function HelpCenter() {
           </CardContent>
         </Card>
 
-        <Card className={`${cardBg} border ${borderColor}`}>
-          <CardContent className="p-6 text-center">
-            <Phone className="w-12 h-12 mx-auto mb-4 text-purple-500" />
-            <h3 className="font-semibold mb-2">Soporte telefónico</h3>
-            <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"} mb-4`}>
-              Llámanos para asistencia inmediata
-            </p>
-            <Button variant="outline" className="w-full bg-transparent">
-              Ver números
-            </Button>
-          </CardContent>
-        </Card>
       </div>
 
       <Card className={`${cardBg} border ${borderColor}`}>
