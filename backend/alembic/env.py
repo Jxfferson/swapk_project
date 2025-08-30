@@ -9,11 +9,14 @@ import sys
 import os
 
 # Agrega el directorio raíz del proyecto al path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from db.database import MARIADB_URL
-from db.base import Base
-from backend.models import Usuario, Habilidad, HabilidadUsuario, Intercambio, Resena, Mensaje, Reporte, EstadisticaUsuario, Notificacion, FAQ, PreferenciaUsuario, RegistroActividad, Sugerencia, Archivo, Curso, DetalleCurso, DetalleIntercambio, Historial, Informacion,InscripcionCurso,Perfil, Sesion_Curso,Sesion_Intercambio
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+
+from backend.db.database import MARIADB_URL
+from backend.db.base import Base
+from backend.models import Usuario, Habilidad, HabilidadUsuario, Intercambio, Resena, Mensaje, Reporte, EstadisticaUsuario, Notificacion, FAQ, PreferenciaUsuario, RegistroActividad, Sugerencia, Archivo, Curso, DetalleCurso, DetalleIntercambio, Historial, Informacion,InscripcionCurso,Perfil, Sesion_Curso,Sesion_Intercambio, comentario, like, publicaciones
 
 
 

@@ -5,6 +5,7 @@ import enum
 
 class Perfil(Base):
     __tablename__ = "perfiles"
+    
     id = Column(Integer, primary_key=True)
     id_usuario = Column(Integer, ForeignKey("usuarios.id"))
     nombre = Column(String(255), nullable=True)
@@ -17,4 +18,6 @@ class Perfil(Base):
     detalle_Intercambio = Column(Integer, ForeignKey("detalle_intercambios.id"))
     detalle_Curso = Column(Integer, ForeignKey("detalle_cursos.id"))
 
-    usuario = relationship("Usuario", backref="perfil", uselist=False)
+    # Relaciones
+    usuario = relationship("Usuario", back_populates="perfil", uselist=False)
+    publicaciones = relationship("Publicacion", back_populates="perfil")

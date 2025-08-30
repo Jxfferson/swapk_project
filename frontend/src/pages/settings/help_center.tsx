@@ -28,12 +28,12 @@ export default function HelpCenter() {
         <Card className={`${cardBg} border ${borderColor}`}>
           <CardContent className="p-6 text-center">
             <MessageSquare className="w-12 h-12 mx-auto mb-4 text-green-500" />
-            <h3 className="font-semibold mb-2">Chat en vivo</h3>
+            <h3 className="font-semibold mb-2">Manual de usuario</h3>
             <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"} mb-4`}>
-              Habla con nuestro equipo de soporte
+              Explora y conoce las formas de usar nuestra aplicación como todo un experto!
             </p>
             <Button variant="outline" className="w-full bg-transparent">
-              Iniciar chat
+              Descargar
             </Button>
           </CardContent>
         </Card>

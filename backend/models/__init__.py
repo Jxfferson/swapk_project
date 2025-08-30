@@ -1,4 +1,7 @@
 from .usuarios import Usuario
+from .publicaciones import Publicacion
+from .comentario import Comentario
+from .like import Like
 from .habilidad import Habilidad
 from .habilidad_usuario import HabilidadUsuario
 from .intercambio import Intercambio
