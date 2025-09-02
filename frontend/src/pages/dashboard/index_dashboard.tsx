@@ -27,6 +27,7 @@ import {
   Menu,
   X,
   PlusIcon,
+  Image as ImageIcon
 } from "lucide-react"
 
 export default function ForumLayout() {
@@ -36,6 +37,8 @@ export default function ForumLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
   const [perfil, setPerfil] = useState<any>(null)
+
+  
 
   // Estados para publicaciones y comentarios
   const [publicaciones, setPublicaciones] = useState<any[]>([])
@@ -49,6 +52,7 @@ export default function ForumLayout() {
     titulo: "",
     contenido: "",
     tipo: "Intercambio",
+    imagen: ""
   })
 
   // Cargar usuario desde localStorage
@@ -56,65 +60,28 @@ export default function ForumLayout() {
     const savedUser = localStorage.getItem("user")
     if (savedUser) {
       const parsed = JSON.parse(savedUser)
-      setUser(parsed.usuario)
+      setUser(parsed.usuario || { id: parsed.id, nombre: parsed.nombre })
       setPerfil(parsed.perfil)
-
-      // Mostrar toast de bienvenida
-      toast.custom((t) => (
-        <div
-          className={`${
-            t.visible ? 'animate-enter' : 'animate-leave'
-          } max-w-md w-full bg-gray-900 shadow-lg rounded-xl pointer-events-auto flex ring-1 ring-gray-700 transition-all duration-500 border-l-4 border-blue-600`}
-        >
-          <div className="flex-1 w-0 p-5">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5 text-2xl text-blue-400">👋</div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-white">
-                  ¡Bienvenido de nuevo, {parsed?.usuario?.nombre || "Usuario"}!
-                </p>
-                <p className="mt-1 text-sm text-gray-300">
-                  Nos encanta verte por aquí. Hoy es un nuevo día lleno de oportunidades para crear algo increíble. ¡Tú puedes con todo!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex">
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none rounded-r-xl p-4 flex items-center justify-center text-sm font-medium text-gray-400 hover:text-white focus:outline-none"
-            >
-              <span className="sr-only">Cerrar</span>
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      ), {
-        duration: 6000,
-        position: 'top-right',
-      })
     }
   }, [])
 
   // Cargar publicaciones al cambiar de pestaña
   useEffect(() => {
-    if (!user) return
-
     const fetchPublicaciones = async () => {
       try {
         const tipo = activeTab === "Todo" ? "all" : activeTab
         const res = await fetch(`http://localhost:8000/api/publicaciones/${tipo}`)
         const data = await res.json()
-        setPublicaciones(Array.isArray(data) ? data : [])
+        const posts = Array.isArray(data) ? data : []
+
+        setPublicaciones(posts)
 
         // Inicializar likes
         const likesMap: Record<number, number> = {}
         const userLikesMap: Record<number, boolean> = {}
-        data.forEach((post: any) => {
+        posts.forEach((post: any) => {
           likesMap[post.id] = post.likes?.length || 0
-          userLikesMap[post.id] = post.likes?.some((like: any) => like.id_usuario === user.id) || false
+          userLikesMap[post.id] = post.likes?.some((like: any) => like.id_usuario === user?.id) || false
         })
         setLikes(likesMap)
         setUserLikes(userLikesMap)
@@ -125,7 +92,7 @@ export default function ForumLayout() {
     }
 
     fetchPublicaciones()
-  }, [activeTab, user])
+  }, [activeTab])
 
   const toggleTheme = () => setIsDark(!isDark)
 
@@ -137,12 +104,15 @@ export default function ForumLayout() {
     }
 
     try {
+      const token = JSON.parse(localStorage.getItem("user")!).token
       const res = await fetch(`http://localhost:8000/api/publicaciones/${postId}/like`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
       })
       const data = await res.json()
-
       setLikes((prev) => ({ ...prev, [postId]: data.total_likes }))
       setUserLikes((prev) => ({ ...prev, [postId]: data.liked }))
     } catch (error) {
@@ -156,216 +126,186 @@ export default function ForumLayout() {
       setComentariosAbiertos(null)
     } else {
       setComentariosAbiertos(postId)
-      if (!comentarios[postId]) {
-        try {
-          const res = await fetch(`http://localhost:8000/api/publicaciones/${postId}/comentarios`)
-          const data = await res.json()
-          setComentarios((prev) => ({ ...prev, [postId]: data }))
-        } catch (error) {
-          console.error("Error al cargar comentarios:", error)
-        }
+      try {
+        const res = await fetch(`http://localhost:8000/api/publicaciones/${postId}/comentarios`)
+        const data = await res.json()
+        setComentarios((prev) => ({
+          ...prev,
+          [postId]: Array.isArray(data) ? data : []
+        }))
+      } catch (error) {
+        console.error("Error al cargar comentarios:", error)
+        setComentarios((prev) => ({ ...prev, [postId]: [] }))
       }
     }
   }
 
+  // Comentar
   const handleComentar = async (postId: number) => {
     if (!nuevoComentario.trim()) return
 
     try {
-      const res = await fetch("http://localhost:8000/api/comentarios", {
+      const token = JSON.parse(localStorage.getItem("user")!).token
+      const res = await fetch(`http://localhost:8000/api/publicaciones/comentarios`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify({
           contenido: nuevoComentario,
           id_publicacion: postId,
         }),
       })
 
-      const data = await res.json()
       if (res.ok) {
+        // ✅ Recargar comentarios del backend para mantener sincronización
+        const updatedRes = await fetch(`http://localhost:8000/api/publicaciones/${postId}/comentarios`)
+        const updatedComments = await updatedRes.json()
         setComentarios((prev) => ({
           ...prev,
-          [postId]: [...(prev[postId] || []), data],
+          [postId]: Array.isArray(updatedComments) ? updatedComments : []
         }))
         setNuevoComentario("")
         toast.success("Comentario publicado")
+      } else {
+        const error = await res.json()
+        toast.error(error.detail || "Error al comentar")
       }
     } catch (error) {
-      toast.error("Error al comentar")
+      toast.error("Error de conexión con el servidor")
     }
   }
 
-const handleCreatePost = async () => {
-  if (!newPost.titulo.trim() || !newPost.contenido.trim()) {
-    toast.error("Compleeta título y contenido")
-    return
-  }
-
-  // Obtén el token del localStorage
-  const savedUser = localStorage.getItem("user")
-  if (!savedUser) {
-    toast.error("No tienes una sesión activa")
-    return
-  }
-
-  const parsedUser = JSON.parse(savedUser)
-  const token = parseUser.token
-  const usuario = parseUser.usuario
-  const perfil = parseUser.perfil
-
-  // Validar que el usuario exista y tenga id
-  if (!usuario || typeof usuario !== "object" || !usuario.id) {
-    toast.error("Usuario no válido")
-    return
-  }
-
-  if (!token) {
-    toast.error("Debes iniciar sesión para crear una publicación")
-    return
-  }
-
-  try {
-    const res = await fetch("http://localhost:8000/api/publicaciones", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        ...newPost,
-        id_usuario: usuario.id,
-        id_perfil: perfil?.id || null
-      }),
-    })
-
-    if (res.ok) {
-      toast.success("Publicación creada")
-      setIsModalOpen(false)
-      setNewPost({ titulo: "", contenido: "", tipo: "Intercambio" })
-
-      // Recargar publicaciones
-      const updated = await fetch(`http://localhost:8000/api/publicaciones/${activeTab}`)
-      const data = await updated.json()
-      setPublicaciones(Array.isArray(data) ? data : [])
-    } else {
-      const error = await res.json()
-      toast.error(error.detail || "Error al crear publicación")
+  // Crear nueva publicación
+  const handleCreatePost = async () => {
+    if (!newPost.titulo.trim() || !newPost.contenido.trim()) {
+      toast.error("Completa título y contenido")
+      return
     }
-  } catch (error) {
-    console.error("Error al crear publicación:", error)
-    toast.error("Error de conexión con el servidor")
+
+    const savedUser = localStorage.getItem("user")
+    if (!savedUser) {
+      toast.error("No tienes una sesión activa")
+      return
+    }
+
+    const parsedUser = JSON.parse(savedUser)
+    const token = parsedUser.token
+    const usuario = { id: parsedUser.id, nombre: parsedUser.nombre }
+    const perfil = parsedUser.perfil
+
+    try {
+      const res = await fetch("http://localhost:8000/api/publicaciones", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ...newPost,
+          id_usuario: usuario.id,
+          id_perfil: perfil?.id || null
+        }),
+      })
+
+      if (res.ok) {
+        toast.success("Publicación creada")
+        setIsModalOpen(false)
+        setNewPost({ titulo: "", contenido: "", tipo: "Intercambio", imagen: "" })
+
+        // Recargar publicaciones
+        const updated = await fetch(`http://localhost:8000/api/publicaciones/${activeTab}`)
+        const data = await updated.json()
+        setPublicaciones(Array.isArray(data) ? data : [])
+      } else {
+        const error = await res.json()
+        toast.error(error.detail || "Error al crear publicación")
+      }
+    } catch (error) {
+      toast.error("Error de conexión con el servidor")
+    }
   }
-}
+
+    const formatFecha = (fechaStr: string) => {
+      const fecha = new Date(fechaStr)
+      const ahora = new Date()
+      const diffMs = ahora.getTime() - fecha.getTime()
+      const diffHrs = Math.floor(diffMs / (1000 * 60 * 60))
+      const diffMin = Math.floor(diffMs / (1000 * 60))
+
+      if (diffMin < 1) return "ahora"
+      if (diffMin < 60) return `hace ${diffMin} min`
+      if (diffHrs < 24) return `hace ${diffHrs} hrs`
+      return fecha.toLocaleDateString()
+    }
+
+
+
   return (
-    <div
-      className={`min-h-screen flex transition-colors duration-300 ${
-        isDark ? "bg-[#141414] text-[#F5F5F5]" : "bg-gray-50 text-gray-900"
-      }`}
-    >
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        toastOptions={{
-          duration: 5000,
-          style: { background: '#363636', color: '#fff' },
-          success: { iconTheme: { primary: '#4CAF50', secondary: 'white' } },
-          error: { iconTheme: { primary: '#EF5350', secondary: 'white' } },
-        }}
-      />
+    <div className={`min-h-screen flex transition-colors duration-300 ${isDark ? "bg-[#141414] text-[#F5F5F5]" : "bg-gray-50 text-gray-900"}`}>
+      <Toaster position="top-right" />
 
       {/* Botón Hamburguesa */}
       <div className="absolute top-4 left-4 md:hidden z-50">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="text-gray-600 dark:text-gray-300"
-        >
+        <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-600 dark:text-gray-300">
           {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </Button>
       </div>
 
       {/* Sidebar Izquierdo */}
-      <div
-        className={`
-          fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300
-          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:static md:flex
-          flex-col border-r 
-          ${isDark ? "bg-[#1E1E1E] border-[#2E2E2E]" : "bg-white border-gray-200"}
-        `}
-      >
+      <div className={`fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:flex flex-col border-r ${isDark ? "bg-[#1E1E1E] border-[#2E2E2E]" : "bg-white border-gray-200"}`}>
         <div className={`p-3 border-b ${isDark ? "border-[#2E2E2E]" : "border-gray-200"}`}>
           <div className="flex items-center gap-2 mb-3">
             <img src="/img/logoswapk.png" alt="Swapk Logo" className="w-7 h-auto" />
             <span className={`text-sm ${isDark ? "text-[#F5F5F5]" : "text-gray-700"}`}>SWAPK</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleTheme}
-              className={`ml-auto h-6 w-6 p-0 ${
-                isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E]" : "text-gray-600 hover:text-gray-900"
-              }`}
-            >
+            <Button variant="ghost" size="sm" onClick={toggleTheme} className={`ml-auto h-6 w-6 p-0 ${isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E]" : "text-gray-600 hover:text-gray-900"}`}>
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
           </div>
 
           <div className="relative mb-3">
             <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDark ? "text-[#A0A0A0]" : "text-gray-500"}`} />
-            <Input
-              placeholder="Buscar en Swapk"
-              className={`pl-10 w-full h-8 border-none shadow-none focus-visible:ring-0 ${
-                isDark ? "bg-[#1E1E1E] text-[#F5F5F5] placeholder-[#A0A0A0]" : "bg-gray-100 text-gray-900 placeholder-gray-500"
-              }`}
-            />
+            <Input placeholder="Buscar en Swapk" className={`pl-10 w-full h-8 border-none shadow-none focus-visible:ring-0 cursor-pointer ${isDark ? "bg-[#1E1E1E] text-[#F5F5F5] placeholder-[#A0A0A0]" : "bg-gray-100 text-gray-900 placeholder-gray-500"}`} />
           </div>
 
           <div className="flex gap-1 mb-3">
             {[MessageSquare, Bell, User].map((Icon, idx) => (
-              <Button
-                key={idx}
-                variant="ghost"
-                size="sm"
-                className={`flex-1 h-8 ${
-                  isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E]" : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
+              <Button key={idx} variant="ghost" size="sm" className={`flex-1 h-8 cursor-pointer ${isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E]" : "text-gray-600 hover:text-gray-900"}`}>
                 <Icon className="w-4 h-4" />
               </Button>
             ))}
           </div>
 
-          <nav className="space-y-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="w-full justify-start bg-blue-600 text-white hover:bg-blue-700 h-8"
-            >
-              <Home className="w-4 h-4 mr-2" /> Inicio
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`w-full justify-start h-8 ${isDark ? "text-[#F5F5F5] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}
-            >
-              <TrendingUp className="w-4 h-4 mr-2" /> Popular
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`w-full justify-start h-8 ${isDark ? "text-[#F5F5F5] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}
-            >
-              <RefreshCw className="w-4 h-4 mr-2" /> Intercambios
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className={`w-full justify-start h-8 ${isDark ? "text-[#F5F5F5] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}
-            >
-              <BookOpen className="w-4 h-4 mr-2" /> Mis Cursos
-            </Button>
+          <nav className="space-y-1">
+            {[
+              { icon: Home, label: "Inicio", active: true },
+              { icon: TrendingUp, label: "Popular", active: false },
+              { icon: RefreshCw, label: "Intercambios", active: false },
+              { icon: BookOpen, label: "Mis Cursos", active: false },
+            ].map((item, idx) => (
+              <Button key={idx} variant="ghost" size="sm" className={`w-full justify-start h-8 cursor-pointer transition-colors ${item.active ? "bg-blue-600 text-white hover:bg-blue-700" : isDark ? "text-[#A0A0A0] hover:bg-[#2E2E2E]" : "text-gray-700 hover:bg-gray-100"}`}>
+                <item.icon className="w-4 h-4 mr-2" /> {item.label}
+              </Button>
+            ))}
           </nav>
+        </div>
+
+        {/* Botón Cerrar Sesión */}
+        <div className={`mt-auto p-3 border-t ${isDark ? "border-[#2E2E2E]" : "border-gray-200"}`}>
+          <Button
+            variant="ghost"
+            className={`w-full justify-start ${isDark ? "text-red-400 hover:bg-red-900 hover:text-white" : "text-red-600 hover:bg-red-100 hover:text-red-800"} transition-colors duration-200 cursor-pointer`}
+            onClick={() => {
+              localStorage.removeItem("user")
+              setUser(null)
+              setPerfil(null)
+              toast.success("Sesión cerrada correctamente")
+              setTimeout(() => router.push("/auth/login"), 1000)
+            }}
+          >
+            Cerrar Sesión
+          </Button>
         </div>
       </div>
 
@@ -378,58 +318,58 @@ const handleCreatePost = async () => {
               key={tab}
               variant={activeTab === tab ? "default" : "ghost"}
               size="sm"
-              className={`transition-colors ${
-                activeTab === tab ? "bg-blue-600 text-white" : isDark ? "text-[#A0A0A0]" : "text-gray-600"
-              }`}
+              className={`transition-colors ${activeTab === tab ? "bg-blue-600 text-white" : isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
             </Button>
           ))}
+          {/* Botón Nueva Publicación */}
+          <div className="flex justify-end mb-2">
+            <Button
+              variant="default"
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center gap-2"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <PlusIcon className="w-5 h-5" /> Nueva Publicación
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="ml-2 text-gray-500 hover:text-gray-700"
+              onClick={async () => {
+                const tipo = activeTab === "Todo" ? "all" : activeTab
+                try {
+                  const res = await fetch(`http://localhost:8000/api/publicaciones/${tipo}`)
+                  const data = await res.json()
+                  setPublicaciones(Array.isArray(data) ? data : [])
+                  toast.success("Publicaciones actualizadas")
+                } catch (error) {
+                  toast.error("Error al recargar")
+                }
+              }}
+            >
+              <RefreshCw className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
 
-        {/* Botón Nueva Publicación */}
-        <div className="flex justify-end mb-4">
-          <Button
-            variant="default"
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg flex items-center gap-2"
-            onClick={() => setIsModalOpen(true)}
-          >
-            <PlusIcon className="w-5 h-5" /> Nueva Publicación
-          </Button>
-        </div>
 
         {/* Publicaciones */}
         <div className="space-y-6">
           {publicaciones.length > 0 ? (
             publicaciones.map((post) => (
-              <Card
-                key={post.id}
-                className={`transition-colors ${isDark ? "bg-[#1E1E1E] border-[#2E2E2E]" : "bg-white border-gray-200"}`}
-              >
+              <Card key={post.id} className={`transition-colors ${isDark ? "bg-[#1E1E1E] border-[#2E2E2E]" : "bg-white border-gray-200"}`}>
                 <CardContent className="p-6">
                   <div className="flex gap-4">
                     {/* Likes */}
                     <div className="flex flex-col items-center gap-1">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleLike(post.id)}
-                        className={`transition-colors ${
-                          userLikes[post.id] ? "text-blue-500" : isDark ? "text-[#A0A0A0]" : "text-gray-600"
-                        }`}
-                      >
+                      <Button variant="ghost" size="icon" onClick={() => handleLike(post.id)} className={`transition-colors ${userLikes[post.id] ? "text-blue-500" : isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}>
                         <ChevronUp className="w-5 h-5" />
                       </Button>
-                      <span className={`text-lg font-semibold ${isDark ? "text-[#F5F5F5]" : "text-gray-900"}`}>
-                        {likes[post.id] ?? 0}
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className={`transition-colors ${isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}
-                      >
+                      <span className={`text-lg font-semibold ${isDark ? "text-[#F5F5F5]" : "text-gray-900"}`}>{likes[post.id] ?? 0}</span>
+                      <Button variant="ghost" size="icon" className={`transition-colors ${isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}>
                         <ChevronDown className="w-5 h-5" />
                       </Button>
                     </div>
@@ -437,42 +377,29 @@ const handleCreatePost = async () => {
                     {/* Contenido */}
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <div
-                          className={`w-6 h-6 rounded-full ${
-                            post.tipo === "Intercambio" ? "bg-green-600" :
-                            post.tipo === "Curso" ? "bg-blue-600" :
-                            post.tipo === "Pregunta" ? "bg-yellow-600" : "bg-purple-600"
-                          }`}
-                        ></div>
-                        <span className={`text-sm ${isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}>
-                          r/{post.tipo.toLowerCase()}
-                        </span>
-                        <span className={`text-sm ${isDark ? "text-[#707070]" : "text-gray-500"}`}>
-                          • hace {Math.floor(Math.random() * 24)} horas
-                        </span>
+                        <div className={`w-6 h-6 rounded-full ${post.tipo === "Intercambio" ? "bg-green-600" : post.tipo === "Curso" ? "bg-blue-600" : post.tipo === "Pregunta" ? "bg-yellow-600" : "bg-purple-600"}`}></div>
+                        <span className={`text-sm ${isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}>r/{post.tipo.toLowerCase()}</span>
+                        <span className={`text-sm ${isDark ? "text-[#707070]" : "text-gray-500"}`}>• {post.usuario.nombre} • hace {Math.floor(Math.random() * 24)} horas</span>
                         <Button variant="ghost" size="icon" className="ml-auto">
                           <MoreHorizontal className="w-4 h-4" />
                         </Button>
                       </div>
 
-                      <h2 className={`text-xl font-semibold mb-3 ${isDark ? "text-[#F5F5F5]" : "text-gray-900"}`}>
-                        {post.titulo}
-                      </h2>
+                      <h2 className={`text-xl font-semibold mb-3 ${isDark ? "text-[#F5F5F5]" : "text-gray-900"}`}>{post.titulo}</h2>
                       <p className={`mb-4 ${isDark ? "text-[#D0D0D0]" : "text-gray-700"}`}>{post.contenido}</p>
+
+                      {/* Imagen opcional */}
+                      {post.imagen && (
+                        <img src={post.imagen} alt="Publicación" className="w-full h-auto rounded-lg mb-4" />
+                      )}
 
                       <div className={`flex gap-2 mb-4 ${isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}>
                         <Badge className="bg-blue-600 text-white">#{post.tipo.toLowerCase()}</Badge>
                       </div>
 
                       <div className={`flex items-center gap-4 text-sm ${isDark ? "text-[#A0A0A0]" : "text-gray-600"}`}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => toggleComentarios(post.id)}
-                          className="transition-colors"
-                        >
-                          <MessageSquare className="w-4 h-4 mr-1" />
-                          {comentarios[post.id]?.length || 0} comentarios
+                        <Button variant="ghost" size="sm" onClick={() => toggleComentarios(post.id)} className="transition-colors">
+                          <MessageSquare className="w-4 h-4 mr-1" /> {comentarios[post.id]?.length || 0} comentarios
                         </Button>
                         <Button variant="ghost" size="sm" className="transition-colors">
                           <Share className="w-4 h-4 mr-1" /> Compartir
@@ -495,10 +422,7 @@ const handleCreatePost = async () => {
                               onChange={(e) => setNuevoComentario(e.target.value)}
                               className={isDark ? "bg-[#141414] text-[#F5F5F5]" : "bg-white text-gray-900"}
                             />
-                            <Button
-                              onClick={() => handleComentar(post.id)}
-                              className="bg-blue-600 hover:bg-blue-700 text-white"
-                            >
+                            <Button onClick={() => handleComentar(post.id)} className="bg-blue-600 hover:bg-blue-700 text-white">
                               Enviar
                             </Button>
                           </div>
@@ -592,9 +516,7 @@ const handleCreatePost = async () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className={`w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden ${isDark ? "bg-[#1E1E1E]" : "bg-white"}`}>
             <div className="p-6 border-b flex justify-between items-center">
-              <h2 className={`text-xl font-semibold ${isDark ? "text-[#F5F5F5]" : "text-gray-900"}`}>
-                Crear Nueva Publicación
-              </h2>
+              <h2 className={`text-xl font-semibold ${isDark ? "text-[#F5F5F5]" : "text-gray-900"}`}>Crear Nueva Publicación</h2>
               <button onClick={() => setIsModalOpen(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="w-6 h-6" />
               </button>
@@ -624,16 +546,16 @@ const handleCreatePost = async () => {
                 onChange={(e) => setNewPost({ ...newPost, contenido: e.target.value })}
                 className={`w-full p-2 rounded-lg border ${isDark ? "bg-[#141414] border-[#2E2E2E] text-[#F5F5F5]" : "bg-white border-gray-300 text-gray-900"}`}
               />
+              <input
+                type="text"
+                placeholder="URL de la imagen (opcional)"
+                value={newPost.imagen}
+                onChange={(e) => setNewPost({ ...newPost, imagen: e.target.value })}
+                className={`w-full p-2 rounded-lg border ${isDark ? "bg-[#141414] border-[#2E2E2E] text-[#F5F5F5]" : "bg-white border-gray-300 text-gray-900"}`}
+              />
               <div className="flex justify-end gap-3 pt-4">
-                <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
-                  onClick={handleCreatePost}
-                >
-                  Publicar
-                </Button>
+                <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancelar</Button>
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white" onClick={handleCreatePost}>Publicar</Button>
               </div>
             </div>
           </div>

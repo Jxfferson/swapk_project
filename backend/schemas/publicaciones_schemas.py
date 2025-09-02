@@ -6,7 +6,8 @@ class PublicacionCreate(BaseModel):
     titulo: str
     contenido: str
     tipo: str = "Intercambio"
-    
+    imagen: Optional[str] = None 
+
 class ComentarioCreate(BaseModel):
     contenido: str
     id_publicacion: int

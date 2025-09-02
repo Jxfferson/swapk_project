@@ -42,17 +42,19 @@ def crear_publicacion(
         "comentarios": []
     }
 
-@router.get("/publicaciones/{id_publicacion}/comentarios")
-def get_comentarios(id_publicacion: int, db: Session = Depends(get_db)):
+@router.get("/{id_publicacion}/comentarios")
+def get_comentarios(
+    id_publicacion: int,
+    db: Session = Depends(get_db)
+):
     comentarios = db.query(Comentario).filter(
         Comentario.id_publicacion == id_publicacion,
-        Comentario.id_comentario_padre == None  # Solo comentarios principales
+        Comentario.id_comentario_padre == None
     ).all()
 
-    # Agregar respuestas si las hay
     resultado = []
     for c in comentarios:
-        respuesta = {
+        resultado.append({
             "id": c.id,
             "contenido": c.contenido,
             "nombre_usuario": c.usuario.nombre,
@@ -68,9 +70,7 @@ def get_comentarios(id_publicacion: int, db: Session = Depends(get_db)):
                 }
                 for r in c.respuestas
             ]
-        }
-        resultado.append(respuesta)
-
+        })
     return resultado
 
 
@@ -133,3 +133,42 @@ def toggle_like(
         db.add(nuevo_like)
         db.commit()
         return {"liked": True, "total_likes": len(publicacion.likes) + 1}
+    
+
+@router.get("/{tipo}")
+def get_publicaciones_por_tipo(
+    tipo: str,
+    db: Session = Depends(get_db)
+):
+    if tipo.lower() == "todo" or tipo.lower() == "all":
+        publicaciones = db.query(Publicacion).all()
+    else:
+        tipo_map = {
+            "intercambios": "Intercambio",
+            "cursos": "Curso",
+            "preguntas": "Pregunta",
+            "logros": "Logro"
+        }
+        tipo_filtrado = tipo_map.get(tipo.lower())
+        if not tipo_filtrado:
+            raise HTTPException(status_code=400, detail="Tipo de publicación no válido")
+        publicaciones = db.query(Publicacion).filter(Publicacion.tipo == tipo_filtrado).all()
+
+    resultado = []
+    for p in publicaciones:
+        resultado.append({
+            "id": p.id,
+            "titulo": p.titulo,
+            "contenido": p.contenido,
+            "tipo": p.tipo,
+            "imagen": p.imagen,  # ✅ Incluido
+            "fecha_creacion": p.fecha_creacion.isoformat(),
+            "usuario": {
+                "nombre": p.usuario.nombre,
+                "foto_perfil": p.usuario.perfil.foto_perfil if p.usuario.perfil else "/img/default.png"
+            },
+            "likes": [{"id": like.id, "id_usuario": like.id_usuario} for like in p.likes],
+            "comentarios": []
+        })
+
+    return resultado
